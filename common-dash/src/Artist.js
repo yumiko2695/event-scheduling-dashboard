@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Modal from 'react-modal'
+import InputComponent from './Input'
 
 const customStyles = {
   content : {
@@ -12,6 +13,10 @@ const customStyles = {
   }
 };
 
+function sample(text) {
+  console.log(text)
+}
+
 Modal.setAppElement('#root')
 
 function Artist(props) {
@@ -20,18 +25,18 @@ function Artist(props) {
 
   //remove action here
   const [modalIsOpen,setIsOpen] = React.useState(false);
-  function openModal() {
-    setIsOpen(true);
-  }
 
-  function afterOpenModal() {
+  const openModal = () => {
+    setIsOpen(true)
+  }
+  const afterOpenModal = () => {
     // references are now sync'd and can be accessed.
     subtitle.style.color = '#f00';
   }
-
-  function closeModal(){
+  const closeModal = () => {
     setIsOpen(false);
   }
+
   //handleRemove hook here
 
   return (
@@ -50,16 +55,14 @@ function Artist(props) {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2>
+          <h2 ref={_subtitle => (subtitle = _subtitle)}>Artist Info</h2>
+          <div>
+          {Object.keys(jsonData).map(char => (
+            <InputComponent text={jsonData[char]} func={sample} type={char}/>
+          ))}
+          </div>
           <button onClick={closeModal}>close</button>
           <div>I am a modal</div>
-          <form>
-            <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
-          </form>
         </Modal>
     </div>
   );
