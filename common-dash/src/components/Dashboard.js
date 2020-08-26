@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import Room from './Room'
+import RoomForm from './RoomForm'
 import {getEditionData} from '../helpers/editionData'
 const edition = 'test';
+
 
 function Dashboard() {
   const [editionData, setEditionData] = useState(false);  //state variable and hook
@@ -24,7 +26,15 @@ function Dashboard() {
 
   return (
     <div className="Dashboard">
+      <RoomForm />
       <Room />
+      {Object.keys(editionData).map((key) => {
+          if(key === 'organizers') {
+            return Object.keys(editionData[key]).map((roomName) => (
+              <Room roomData={editionData[key][roomName]} />
+            ))
+          }
+        })}
     </div>
   );
 }

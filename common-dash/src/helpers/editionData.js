@@ -16,7 +16,45 @@ export const getEditionData = async (edition) => {
 }
 
 //add room
-
+export const createRoom = async (edition, roomKey, roomData) => {
+  const db = firebase.firestore()
+try {
+  let data = await db.collection('festival').doc(edition).get()
+  let oldRooms = data.data().rooms
+  let newRooms = [...oldRooms, roomKey]
+  let oldOrganizers = data.data().organizers
+  let newOrganizers = {...oldOrganizers, [roomKey]: roomData}
+  await db.collection('festival').doc(edition).update({
+  rooms: newRooms,
+  organizers: newOrganizers
+  })
+} catch(e) {
+  console.error(e, 'in createroom')
+  return 'ERROR'
+}
+}
 
 //delete room
+export const deleteRoom = async (edition, roomKey) => {
+  const db = firebase.firestore()
+  try {
+    let data = await db.collection('festival').doc(edition).get()
+    let oldRooms = data.data().rooms
+    let newRooms = [...oldRooms].filter(char => char !== roomKey);
+    let oldOrganizers = data.data().organizers
+    let newOrganizers = Object.keys(oldOrganizers).reduce((object, key) => {
+      if (key !== roomKey) {
+        object[key] = oldOrganizers[key]
+      }
+      return object
+    }, {})
+    await db.collection('festival').doc(edition).update({
+    rooms: newRooms,
+    organizers: newOrganizers
+    })
+  } catch(e) {
+    console.error(e, 'in deleteroom')
+    return 'ERROR'
+  }
+  }
 

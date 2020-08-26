@@ -1,18 +1,21 @@
 import React from 'react'
 import Artist from './Artist'
 import {jsonData, jsonData1, jsonData2, roomData} from '../jsonData'
+let roomDataEx = {...roomData}
 
 
-function Room() {
+function Room(props) {
+  const {roomData} = props;
+  console.log(roomData);
   return (
       <div className="Room">
         <div className="RoomInfo">
-          <h1>Room Num: {roomData.number}</h1>
-          <h2>Room Title: {roomData.title}</h2>
-          <h2>Location: {roomData.lat},{roomData.lon}</h2>
-          <h2>Vimeo Channel {roomData.streamId}</h2>
-          <h2>Vimeo Link: {roomData.streamLink}</h2>
-          <h2>Start Time: {roomData.startTime}</h2>
+          <h1>Room Num: {roomDataEx.number}</h1>
+          <h2>Room Name: {roomData.name}</h2>
+          <h2>Location: {roomData.location}</h2>
+          <h2>Vimeo Channel {roomDataEx.streamId}</h2>
+          <h2>Vimeo Link: {roomDataEx.streamLink}</h2>
+          <h2>Start Time: {roomDataEx.startTime}</h2>
         </div>
         <div className="RoomLineup">
           <Artist jsonData={jsonData}/>
