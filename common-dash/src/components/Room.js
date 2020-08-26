@@ -1,6 +1,6 @@
 import React from 'react'
 import Artist from './Artist'
-import {jsonData, jsonData1, jsonData2, roomData} from './jsonData'
+import {jsonData, jsonData1, jsonData2, roomData} from '../jsonData'
 
 
 function Room() {

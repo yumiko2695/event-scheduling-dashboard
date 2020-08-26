@@ -17,7 +17,6 @@ function TextInput(props) {
 
 function InputComponent(props) {
   const {text, func, type} = props
-  console.log(text)
   if (typeof text === 'string') {
     return  <TextInput text={text} func={func} type={type}/>
   }
