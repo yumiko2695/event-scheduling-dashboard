@@ -44,7 +44,7 @@ function Dashboard() {
       {Object.keys(editionData).map((key) => {
           if(key === 'organizers') {
             return Object.keys(editionData[key]).map((roomName) => (
-              <Room roomData={editionData[key][roomName]} />
+              <Room roomData={editionData[key][roomName]} roomKey={roomName} getEdition={getEdition}/>
             ))
           }
         })}

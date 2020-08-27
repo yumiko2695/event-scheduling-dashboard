@@ -26,7 +26,7 @@ const roomLineupStyle = {
 }
 
 function Room(props) {
-  const {roomData} = props;
+  const {roomData, roomKey, getEdition} = props;
 
   return (
       <div className="Room" style={roomStyle}>
@@ -38,7 +38,7 @@ function Room(props) {
           <p>Stream ID: Hardcode</p>
           <p>Streak Link: Hardcode</p>
           <p>Start Time: DO WE ADD THIS TO THE DATABASE</p>
-          <RoomForm isEdit={false} roomData={roomData}/>
+          <RoomForm isEdit={false} roomData={roomData} roomKey={roomKey} getEdition={getEdition}/>
         </div>
         <div className="RoomLineup" style={roomLineupStyle}>
           <Artist jsonData={jsonData}/>

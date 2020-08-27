@@ -1,13 +1,18 @@
 import React from 'react';
 
 function TextInput(props) {
-  const {func, type, value, text} = props
+  const {func, type, value, text, initialVal} = props
+  console.log('type inside textinput: ', type)
+  console.log('value inside textinput: ', value)
+  console.log('text inside textinput: ', text)
+  console.log('initialVal inside textinput: ', initialVal)
+
   return (
     <div className="Input">
       <form>
         <label>
           {type}
-          <input type="text" name="name" value={text} placeholder onChange={(event) => {func(event.target.value)}}/>
+          <input type="text" name={type} text={initialVal} value={value} placeholder onChange={async (event) => { await func(event.target.value)}}/>
         </label>
       </form>
     </div>
@@ -21,7 +26,7 @@ function EmptyTextInput(props) {
       <form>
         <label>
           {type}
-          <input type="text" name="name" value={value} placeholder onChange={(event) => {func(event.target.value)}}/>
+          <input type="text" name={type} value={text} onChange={(event) => {func(event.target.value)}}/>
         </label>
       </form>
     </div>
@@ -31,20 +36,17 @@ function EmptyTextInput(props) {
 
 function InputComponent(props) {
   const {func, type, isNewFormEntry, value, roomData, text} = props
-  console.log('this is roomData', roomData)
-  console.log('this is value', value)
-
-  if(roomData) {
-    let val = roomData[`${value}`]
-    console.log('this is val', val)
-    return <TextInput func={func} type={type} value={value} text={val} />
-  }
   if(isNewFormEntry) {
     return  <EmptyTextInput func={func} type={type} value={value}/>
   }
-  if (typeof text === 'string') {
-    return  <TextInput func={func} type={type} value={value} text={text}/>
+  if(roomData) {
+    let val = roomData[`${value}`]
+    return <TextInput initialVal={val}func={func} type={type} value={value} />
   }
+
+  // if (typeof text === 'string') {
+  //   return <TextInput func={func} type={type} value={value} text={text}/>
+  // }
   else {
     return <div>hello</div>
   }

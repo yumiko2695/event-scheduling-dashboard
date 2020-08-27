@@ -1,7 +1,6 @@
 import firebase from 'firebase'
 
 //get rooms
-
 export const getEditionData = async (edition) => {
   const db = firebase.firestore()
   try {
@@ -22,8 +21,10 @@ try {
   let data = await db.collection('festival').doc(edition).get()
   let oldRooms = data.data().rooms
   let newRooms = [...oldRooms, roomKey]
+  console.log('this is new rooms in add room', newRooms)
+  console.log('this is room key add room', roomKey)
   let oldOrganizers = data.data().organizers
-  let newOrganizers = {...oldOrganizers, [roomKey]: roomData}
+  let newOrganizers = {...oldOrganizers, [roomKey]: {...roomData}}
   await db.collection('festival').doc(edition).update({
   rooms: newRooms,
   organizers: newOrganizers
@@ -59,17 +60,22 @@ export const deleteRoom = async (edition, roomKey) => {
   }
 
   //edit room
-  export const edutRoom = async (edition, roomKey, roomData) => {
+  export const editRoom = async (edition, roomKey, roomData) => {
     const db = firebase.firestore()
   try {
     let data = await db.collection('festival').doc(edition).get()
     let oldOrganizers = data.data().organizers
-    let newOrganizers = {...oldOrganizers, [roomKey]: roomData}
+    console.log('in the edition data - old organizers: ', oldOrganizers)
+    console.log('in the edition data -  roomData: ', roomData)
+    console.log('in the edition data -  roomkey: ', roomKey)
+
+    let oldRoom = oldOrganizers[roomKey]
+    let newOrganizers = {...oldOrganizers, [roomKey]: {...oldRoom, ...roomData}}
     await db.collection('festival').doc(edition).update({
     organizers: newOrganizers
     })
   } catch(e) {
-    console.error(e, 'in createroom')
+    console.error(e, 'in editroom')
     return 'ERROR'
   }
   }

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Modal from 'react-modal'
 import InputComponent from './Input'
-import {createRoom} from '../helpers/editionData'
+import {createRoom, editRoom, deleteRoom} from '../helpers/editionData'
 const edition = 'test';
 
 const roomFormStyle = {
@@ -25,7 +25,7 @@ Modal.setAppElement('#root')
 
 function RoomForm(props) {
   var subtitle;
-  const {getEdition, isNew, roomData} = props;
+  const {getEdition, isNew, roomData, roomKey} = props;
 
   //opening modal
   const [modalIsOpen,setIsOpen] = React.useState(false);
@@ -40,14 +40,28 @@ function RoomForm(props) {
   const [collective, setCollective] = useState("");   //collective id
   //room + object of the all the values except the key
   const [room, setRoom] = useState(false);
-  useEffect(() => {             //updates room object in state with values
+  useEffect(() => {
     if(name) {setRoom({...room, name: name})}
-    if(subName) {setRoom({...room, subName: subName})}
+  }, [name])
+  useEffect(() => {
     if(location) {setRoom({...room, location: location})}
+  }, [location])
+  useEffect(() => {
     if(collective) {setRoom({...room, collective: collective})}
-    console.log(room);
-  }, [name, subName, location, collective])
-
+  }, [collective])
+  useEffect(() => {
+    if(subName) {setRoom({...room, subName: subName})}
+  }, [subName])
+  useEffect(() => {
+    if(roomData) {
+      setName(roomData.name)
+      setSubName(roomData.subName)
+      setKey(roomKey)
+      setLocation(roomData.location)
+      setCollective(roomData.collective)
+      setRoom(roomData)
+    }
+  }, [roomData, roomKey])
   const handleCreateRoom = async (edition, key, room) => {
       const data = await createRoom(edition, key, room);
     if(data !== 'ERROR') {
@@ -58,38 +72,82 @@ function RoomForm(props) {
       console.log('error in the add edition')
     }
   }
+  const handleEditRoom = async (edition, key, room) => {
+    const data = await editRoom(edition, key, room)
+    if(data !== 'ERROR') {
+      getEdition(edition)
+      console.log('room was edited')
+    } else {
+      console.log('error in the edit edition')
+    }
+  }
+  const handleDeleteRoom = async (edition, key) => {
+    const data = await deleteRoom(edition, key);
+    if(data !== 'ERROR') {
+      getEdition(edition)
+      console.log('room was deleted')
+    } else {
+      console.log('error in the edit edition')
+    }
+  }
 
   const handleSubmit = (evt) => {
-    handleCreateRoom(edition, key, room)
-    setName("")
-    setSubName("")
-    setKey("")
-    setLocation("")
-    setCollective("")
-    closeModal()
-    evt.preventDefault()
+    if(evt.target.value === 'delete') {
+      handleDeleteRoom(edition, key)
+      setName("")
+      setSubName("")
+      setKey("")
+      setLocation("")
+      setCollective("")
+      setRoom(false)
+      closeModal()
+      evt.preventDefault()
+    }
+    else if(evt.target.value === 'edit') {
+      handleEditRoom(edition, key, room)
+      setName("")
+      setSubName("")
+      setKey("")
+      setLocation("")
+      setCollective("")
+      setRoom(false)
+      closeModal()
+      evt.preventDefault()
+    } else {
+      handleCreateRoom(edition, key, room)
+      setName("")
+      setSubName("")
+      setKey("")
+      setLocation("")
+      setCollective("")
+      setRoom(false)
+      closeModal()
+      evt.preventDefault()
+    }
 }
+
   return (
     <div className="RoomForm">
       {isNew ? <button onClick={openModal}>Add Room</button> : <button onClick={openModal}>Edit Room</button>}
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          {isNew ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Room</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Room</h2>}
-          <form onSubmit={handleSubmit}>
-            <InputComponent value='name' func={setName} type="Room Name" isNewFormEntry={isNew} roomData={roomData}/>
-            <InputComponent  value='subName' func={setSubName} type="Collective Name" isNewFormEntry={isNew} roomData={roomData}/>
-            {isNew ? <InputComponent value='key' func={setKey} type="Collective Abbreviation (ex. failed units --> FE)" isNewFormEntry={isNew}/> : <></>}
-            <InputComponent value='location' func={setLocation} type="Location" isNewFormEntry={isNew} roomData={roomData}/>
-            <InputComponent value='collective' func={setCollective} type="Collective ID" isNewFormEntry={isNew} roomData={roomData}/>
-          <input type="submit" value="Submit" />
-          </form>
-          <button onClick={closeModal}>close</button>
-        </Modal>
+              <Modal
+              isOpen={modalIsOpen}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              style={customStyles}
+              contentLabel="Example Modal"
+            >
+              {isNew ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Room</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Room</h2>}
+              <form onSubmit={(event, isNew) => {handleSubmit(event, isNew)}} >
+                <InputComponent value={name} func={setName} type="Room Name" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={subName} func={setSubName} type="Collective Name" isNewFormEntry={isNew} roomData={roomData}/>
+                {isNew ? <InputComponent value={key} func={setKey} type="Collective Abbreviation (ex. failed units --> FE)" isNewFormEntry={isNew}/> : <></>}
+                <InputComponent value={location} func={setLocation} type="Location" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={collective} func={setCollective} type="Collective ID" isNewFormEntry={isNew} roomData={roomData}/>
+             {isNew ? <input type="submit" value="Submit" /> : <input type="submit" value="edit" />}
+              {!isNew ? <input type="submit" value="delete" onClick={handleSubmit}/> : <></>}
+              </form>
+              <button onClick={closeModal}>close</button>
+            </Modal>
     </div>
   )
 }
