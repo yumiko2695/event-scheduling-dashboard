@@ -58,3 +58,18 @@ export const deleteRoom = async (edition, roomKey) => {
   }
   }
 
+  //edit room
+  export const edutRoom = async (edition, roomKey, roomData) => {
+    const db = firebase.firestore()
+  try {
+    let data = await db.collection('festival').doc(edition).get()
+    let oldOrganizers = data.data().organizers
+    let newOrganizers = {...oldOrganizers, [roomKey]: roomData}
+    await db.collection('festival').doc(edition).update({
+    organizers: newOrganizers
+    })
+  } catch(e) {
+    console.error(e, 'in createroom')
+    return 'ERROR'
+  }
+  }

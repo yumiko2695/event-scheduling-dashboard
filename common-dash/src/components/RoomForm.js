@@ -4,7 +4,10 @@ import InputComponent from './Input'
 import {createRoom} from '../helpers/editionData'
 const edition = 'test';
 
-
+const roomFormStyle = {
+  paddingTop: '5vh',
+  paddingBottom: '10vh'
+}
 
 const customStyles = {
   content : {
@@ -17,15 +20,12 @@ const customStyles = {
   }
 };
 
-function sample(text) {
-  console.log(text)
-}
-
 Modal.setAppElement('#root')
+
 
 function RoomForm(props) {
   var subtitle;
-  const {jsonData} = props
+  const {getEdition, isNew, roomData} = props;
 
   //opening modal
   const [modalIsOpen,setIsOpen] = React.useState(false);
@@ -51,7 +51,9 @@ function RoomForm(props) {
   const handleCreateRoom = async (edition, key, room) => {
       const data = await createRoom(edition, key, room);
     if(data !== 'ERROR') {
+      getEdition(edition)
       console.log('room was added')
+      //function to refresh edition data!!!!!!
     } else {
       console.log('error in the add edition')
     }
@@ -69,7 +71,7 @@ function RoomForm(props) {
 }
   return (
     <div className="RoomForm">
-      <button onClick={openModal}>Add Room</button>
+      {isNew ? <button onClick={openModal}>Add Room</button> : <button onClick={openModal}>Edit Room</button>}
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
@@ -77,14 +79,14 @@ function RoomForm(props) {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Room</h2>
+          {isNew ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Room</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Room</h2>}
           <form onSubmit={handleSubmit}>
-            <InputComponent text="" value={name} func={setName} type="Room Name" isNewFormEntry={true}/>
-            <InputComponent text="" value={subName} func={setSubName} type="Collective Name" isNewFormEntry={true}/>
-            <InputComponent text="" value={key} func={setKey} type="Collective Abbreviation (ex. failed units --> FE)" isNewFormEntry={true}/>
-            <InputComponent text="" value={location} func={setLocation} type="Location" isNewFormEntry={true}/>
-            <InputComponent text="" value={collective} func={setCollective} type="Collective ID" isNewFormEntry={true}/>
-            <input type="submit" value="Submit" />
+            <InputComponent value='name' func={setName} type="Room Name" isNewFormEntry={isNew} roomData={roomData}/>
+            <InputComponent  value='subName' func={setSubName} type="Collective Name" isNewFormEntry={isNew} roomData={roomData}/>
+            {isNew ? <InputComponent value='key' func={setKey} type="Collective Abbreviation (ex. failed units --> FE)" isNewFormEntry={isNew}/> : <></>}
+            <InputComponent value='location' func={setLocation} type="Location" isNewFormEntry={isNew} roomData={roomData}/>
+            <InputComponent value='collective' func={setCollective} type="Collective ID" isNewFormEntry={isNew} roomData={roomData}/>
+          <input type="submit" value="Submit" />
           </form>
           <button onClick={closeModal}>close</button>
         </Modal>

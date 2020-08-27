@@ -42,7 +42,7 @@ function Artist(props) {
   return (
     <div className="Artist">
       <div className="ArtistLeft">
-      <h3>{jsonData.artist}</h3>
+      <p>{jsonData.artist}</p>
       </div>
       <div className="ArtistRight">
         <button onClick={openModal}>Edit</button>
@@ -55,7 +55,7 @@ function Artist(props) {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <h2 ref={_subtitle => (subtitle = _subtitle)}>Artist Info</h2>
+          <p ref={_subtitle => (subtitle = _subtitle)}>Artist Info</p>
           <div>
           {Object.keys(jsonData).map(char => (
             <InputComponent text={jsonData[char]} func={sample} type={char}/>

@@ -5,6 +5,18 @@ import {getEditionData} from '../helpers/editionData'
 const edition = 'test';
 
 
+const roomContainerStyle = {
+  display: 'flex',
+  flexDirection: 'horizontal',
+  flexWrap: 'nowrap',
+  paddingLeft: '1vw',
+  paddingRight: '1vw',
+  paddingTop: '5vh',
+  outlineWidth: '3px',
+  outlineColor: 'red',
+  outlineStyle: 'auto',
+}
+
 function Dashboard() {
   const [editionData, setEditionData] = useState(false);  //state variable and hook
 
@@ -23,11 +35,12 @@ function Dashboard() {
     }
   }, [edition])
 
-
   return (
     <div className="Dashboard">
-      <RoomForm />
-      <Room />
+      <div>
+        <RoomForm getEdition={getEdition} isNew={true}/>
+      </div>
+      <div className="RoomContainer" style={roomContainerStyle}>
       {Object.keys(editionData).map((key) => {
           if(key === 'organizers') {
             return Object.keys(editionData[key]).map((roomName) => (
@@ -35,6 +48,7 @@ function Dashboard() {
             ))
           }
         })}
+        </div>
     </div>
   );
 }

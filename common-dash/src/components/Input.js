@@ -1,7 +1,7 @@
 import React from 'react';
 
 function TextInput(props) {
-  const {text, func, type, value} = props
+  const {func, type, value, text} = props
   return (
     <div className="Input">
       <form>
@@ -30,12 +30,20 @@ function EmptyTextInput(props) {
 
 
 function InputComponent(props) {
-  const {text, func, type, isNewFormEntry, value} = props
+  const {func, type, isNewFormEntry, value, roomData, text} = props
+  console.log('this is roomData', roomData)
+  console.log('this is value', value)
+
+  if(roomData) {
+    let val = roomData[`${value}`]
+    console.log('this is val', val)
+    return <TextInput func={func} type={type} value={value} text={val} />
+  }
   if(isNewFormEntry) {
-    return  <EmptyTextInput text={text} func={func} type={type} value={value}/>
+    return  <EmptyTextInput func={func} type={type} value={value}/>
   }
   if (typeof text === 'string') {
-    return  <TextInput text={text} func={func} type={type} value={value}/>
+    return  <TextInput func={func} type={type} value={value} text={text}/>
   }
   else {
     return <div>hello</div>
