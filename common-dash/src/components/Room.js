@@ -31,12 +31,12 @@ function Room(props) {
   return (
       <div className="Room" style={roomStyle}>
         <div className="RoomInfo" style={roomInfoStyle}>
-          <p>Room Num: Hardcode</p>
-          <p>Collective Name: {roomData.subName}</p>
-          {roomData.name ? <p>Room Name: {roomData.name}</p> : <p>please add room name</p>}
+        <p>Room Num: Hardcode </p>
+          <h1>Collective Name: {roomData.subName}</h1>
+          <h2>Room Name: {roomData.name}</h2>
           <p>Location: {roomData.location}</p>
-          <p>Stream ID: Hardcode</p>
-          <p>Streak Link: Hardcode</p>
+          <p>Stream ID: {roomData.streamId}</p>
+          <p>Stream Link: {roomData.streamLink}</p>
           <p>Start Time: DO WE ADD THIS TO THE DATABASE</p>
           <RoomForm isEdit={false} roomData={roomData} roomKey={roomKey} getEdition={getEdition}/>
         </div>

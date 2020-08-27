@@ -38,6 +38,11 @@ function RoomForm(props) {
   const [key, setKey] = useState("");   //room abbreviation
   const [location, setLocation] = useState("");   //location
   const [collective, setCollective] = useState("");   //collective id
+  const [adminId, setAdminId] = useState("");   //adminId
+  const [streamId, setStreamId] = useState("");   //streamID
+  const [streamLink, setStreamLink] = useState("");   // streamlink
+
+
   //room + object of the all the values except the key
   const [room, setRoom] = useState(false);
   useEffect(() => {
@@ -53,12 +58,24 @@ function RoomForm(props) {
     if(subName) {setRoom({...room, subName: subName})}
   }, [subName])
   useEffect(() => {
+  if(streamId) {setRoom({...room, streamId: streamId})}
+}, [streamId])
+useEffect(() => {
+  if(streamLink) {setRoom({...room, streamLink: streamLink})}
+}, [streamLink])
+useEffect(() => {
+  if(adminId) {setRoom({...room, adminId: adminId})}
+}, [adminId])
+  useEffect(() => {
     if(roomData) {
       setName(roomData.name)
       setSubName(roomData.subName)
       setKey(roomKey)
       setLocation(roomData.location)
       setCollective(roomData.collective)
+      setStreamId(roomData.streamId)
+      setStreamLink(roomData.streamLink)
+      setAdminId(roomData.adminId)
       setRoom(roomData)
     }
   }, [roomData, roomKey])
@@ -94,36 +111,23 @@ function RoomForm(props) {
   const handleSubmit = (evt) => {
     if(evt.target.value === 'delete') {
       handleDeleteRoom(edition, key)
-      setName("")
-      setSubName("")
-      setKey("")
-      setLocation("")
-      setCollective("")
-      setRoom(false)
-      closeModal()
-      evt.preventDefault()
     }
     else if(evt.target.value === 'edit') {
       handleEditRoom(edition, key, room)
-      setName("")
-      setSubName("")
-      setKey("")
-      setLocation("")
-      setCollective("")
-      setRoom(false)
-      closeModal()
-      evt.preventDefault()
     } else {
       handleCreateRoom(edition, key, room)
-      setName("")
-      setSubName("")
-      setKey("")
-      setLocation("")
-      setCollective("")
-      setRoom(false)
-      closeModal()
-      evt.preventDefault()
     }
+    setName("")
+    setSubName("")
+    setKey("")
+    setLocation("")
+    setCollective("")
+    setStreamId("")
+    setStreamLink("")
+    setAdminId("")
+    setRoom(false)
+    closeModal()
+    evt.preventDefault()
 }
 
   return (
@@ -143,10 +147,12 @@ function RoomForm(props) {
                 {isNew ? <InputComponent value={key} func={setKey} type="Collective Abbreviation (ex. failed units --> FE)" isNewFormEntry={isNew}/> : <></>}
                 <InputComponent value={location} func={setLocation} type="Location" isNewFormEntry={isNew} roomData={roomData}/>
                 <InputComponent value={collective} func={setCollective} type="Collective ID" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={adminId} func={setAdminId} type="Admin ID" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={streamId} func={setStreamId} type="Stream ID" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={streamLink} func={setStreamLink} type="stream link" isNewFormEntry={isNew} roomData={roomData}/>
              {isNew ? <input type="submit" value="Submit" /> : <input type="submit" value="edit" />}
               {!isNew ? <input type="submit" value="delete" onClick={handleSubmit}/> : <></>}
               </form>
-              <button onClick={closeModal}>close</button>
             </Modal>
     </div>
   )
