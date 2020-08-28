@@ -112,7 +112,7 @@ useEffect(() => {
     if(evt.target.value === 'delete') {
       handleDeleteRoom(edition, key)
     }
-    else if(evt.target.value === 'edit') {
+    else if(evt.target.value === 'submit edit') {
       handleEditRoom(edition, key, room)
     } else {
       handleCreateRoom(edition, key, room)
@@ -142,15 +142,15 @@ useEffect(() => {
             >
               {isNew ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Room</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Room</h2>}
               <form onSubmit={(event, isNew) => {handleSubmit(event, isNew)}} >
-                <InputComponent value={name} func={setName} type="Room Name" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={subName} func={setSubName} type="Collective Name" isNewFormEntry={isNew} roomData={roomData}/>
-                {isNew ? <InputComponent value={key} func={setKey} type="Collective Abbreviation (ex. failed units --> FE)" isNewFormEntry={isNew}/> : <></>}
-                <InputComponent value={location} func={setLocation} type="Location" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={collective} func={setCollective} type="Collective ID" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={adminId} func={setAdminId} type="Admin ID" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={streamId} func={setStreamId} type="Stream ID" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={streamLink} func={setStreamLink} type="stream link" isNewFormEntry={isNew} roomData={roomData}/>
-             {isNew ? <input type="submit" value="Submit" /> : <input type="submit" value="edit" />}
+                <InputComponent value={name} func={setName} text="Room Name" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={subName} func={setSubName} text="Collective Name" isNewFormEntry={isNew} roomData={roomData}/>
+                {isNew ? <InputComponent value={key} func={setKey} text="Collective Abbreviation (ex. failed units --> FE)" isNewFormEntry={isNew}/> : <></>}
+                <InputComponent value={location} func={setLocation} text="Location" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={collective} func={setCollective} text="Collective ID" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={adminId} func={setAdminId} text="Admin ID" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={streamId} func={setStreamId} text="Stream ID" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent value={streamLink} func={setStreamLink} text="stream link" isNewFormEntry={isNew} roomData={roomData}/>
+             {isNew ? <input type="submit" value="Submit" /> : <input type="submit" value="submit edit" />}
               {!isNew ? <input type="submit" value="delete" onClick={handleSubmit}/> : <></>}
               </form>
             </Modal>

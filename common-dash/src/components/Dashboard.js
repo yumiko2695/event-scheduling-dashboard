@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import Room from './Room'
 import RoomForm from './RoomForm'
 import {getEditionData} from '../helpers/editionData'
+import {getShows} from '../helpers/shows'
+
 const edition = 'test';
 
 
@@ -18,9 +20,19 @@ const roomContainerStyle = {
 }
 
 function Dashboard() {
-  const [editionData, setEditionData] = useState(false);  //state variable and hook
+  const [editionData, setEditionData] = useState(false)
+  const [shows, setShows] = useState(false);
 
-  const getEdition = async (edition) => {           //the function that calls our api call
+  const handleGetShows = async (edition) => {
+    const data = await getShows(edition);
+    console.log(data)
+    if(data !== 'ERROR') {
+      setShows(data);
+    } else {
+      console.log('error in the get edition')
+    }
+  }
+  const getEdition = async (edition) => {
     const data = await getEditionData(edition);
     if(data !== 'ERROR') {
       setEditionData(data);
@@ -29,11 +41,18 @@ function Dashboard() {
     }
   }
 
-  useEffect(() => {     // use effect that is enabled for a specific state variable, triggers when edition changes
-    if(edition) {       //do stuff inside use effect
-      getEdition(edition)   //have a function that changes the edition string, which will trigger this use effect
+  useEffect(() => {
+    if(edition) {
+      getEdition(edition)
     }
   }, [edition])
+
+  useEffect(() => {
+    if(shows) {
+      handleGetShows(edition)
+    }
+  }, [shows])
+
 
   return (
     <div className="Dashboard">
@@ -41,13 +60,11 @@ function Dashboard() {
         <RoomForm getEdition={getEdition} isNew={true}/>
       </div>
       <div className="RoomContainer" style={roomContainerStyle}>
-      {Object.keys(editionData).map((key) => {
-          if(key === 'organizers') {
-            return Object.keys(editionData[key]).map((roomName) => (
-              <Room roomData={editionData[key][roomName]} roomKey={roomName} getEdition={getEdition}/>
-            ))
-          }
-        })}
+        {editionData && editionData.organizers ? Object.keys(editionData.organizers).map((room, index) => (
+              <Room roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} shows={shows[room]} key={index}/>
+          )
+        ) : null}
+
         </div>
     </div>
   );

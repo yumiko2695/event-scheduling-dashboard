@@ -2,10 +2,6 @@ import React from 'react';
 
 function TextInput(props) {
   const {func, type, value, text, initialVal} = props
-  console.log('type inside textinput: ', type)
-  console.log('value inside textinput: ', value)
-  console.log('text inside textinput: ', text)
-  console.log('initialVal inside textinput: ', initialVal)
 
   return (
     <div className="Input">
@@ -25,8 +21,8 @@ function EmptyTextInput(props) {
     <div className="Input">
       <form>
         <label>
-          {type}
-          <input type="text" name={type} value={text} onChange={(event) => {func(event.target.value)}}/>
+          {text}
+          <input type={type} name={text} value={value} onChange={(event) => {func(event.target.value)}}/>
         </label>
       </form>
     </div>
@@ -35,18 +31,18 @@ function EmptyTextInput(props) {
 
 
 function InputComponent(props) {
-  const {func, type, isNewFormEntry, value, roomData, text} = props
-  if(isNewFormEntry) {
-    return  <EmptyTextInput func={func} type={type} value={value}/>
+  const {func, type, isNewFormEntry, value, roomData, text, isNewShow} = props
+  if(isNewFormEntry || isNewShow) {
+    return  <EmptyTextInput func={func} text={text} type={type} value={value}/>
   }
   if(roomData) {
     let val = roomData[`${value}`]
     return <TextInput initialVal={val}func={func} type={type} value={value} />
   }
 
-  // if (typeof text === 'string') {
-  //   return <TextInput func={func} type={type} value={value} text={text}/>
-  // }
+  //  if (typeof text === 'string') {
+  //    return <TextInput func={func} type={type} value={value} text={text}/>
+  //  }
   else {
     return <div>hello</div>
   }
