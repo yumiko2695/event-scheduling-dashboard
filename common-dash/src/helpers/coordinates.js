@@ -17,14 +17,12 @@ const endpoint = process.env.REACT_APP_BACKEND_URL
 //   }
 // }
 
-
-
 export const getCoordinates = async (location) => {
   try {
     const body = JSON.stringify({
       location, //string that someone searches
     })
-    const response = await fetch(`${process.env.    REACT_APP_BACKEND_URL}/getGPSFromAddress`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/getGPSFromAddress`, {
       method: 'post',
       headers: {
                   'Content-Type': 'application/json',
@@ -38,7 +36,6 @@ export const getCoordinates = async (location) => {
     }
     return geolocation;
   }
-
   } catch(e) {
     console.error(e)
   }
