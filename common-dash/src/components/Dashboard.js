@@ -61,7 +61,7 @@ function Dashboard() {
       </div>
       <div className="RoomContainer" style={roomContainerStyle}>
         {editionData && editionData.organizers ? Object.keys(editionData.organizers).map((room, index) => (
-              <Room roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} shows={shows[room]} key={index}/>
+              <Room roomData={editionData.organizers[room]} roomKey={room} getShows={getShows} getEdition={getEdition} shows={shows[room]} key={index}/>
           )
         ) : null}
 

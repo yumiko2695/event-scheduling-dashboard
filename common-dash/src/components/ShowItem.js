@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import ShowForm from './ShowForm'
+import {getShows} from '../helpers/shows'
 
 function ShowItem(props) {
   var subtitle;
@@ -13,7 +14,7 @@ function ShowItem(props) {
       <p>{jsonData.artist}</p>
       <p>start time</p>
       </div>
-      <ShowForm jsonData={jsonData}/>
+      <ShowForm jsonData={jsonData} getShows={getShows}/>
     </div>
   );
 }

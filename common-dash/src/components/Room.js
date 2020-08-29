@@ -51,7 +51,7 @@ function Show({ show, index }) {
 
 
 function Room(props) {
-  const {roomData, roomKey, getEdition, shows} = props;
+  const {roomData, roomKey, getEdition, getShows, shows} = props;
   const [orderedShows, setOrderedShows] = useState([])
   function onDragEnd(result) {
       if (!result.destination) {
@@ -86,13 +86,13 @@ function Room(props) {
           <p>Start Time: DO WE ADD THIS TO THE DATABASE</p>
           <RoomForm isNew={false} roomData={roomData} roomKey={roomKey} getEdition={getEdition}/>
         </div>
-        <ShowForm jsonData={jsonData}/>
-        <div className="RoomLineup" style={roomLineupStyle}>
+        <ShowForm getShows={getShows} isNew={true}/>
+        <div className="RoomLineup" style={roomLineupStyle} shows={shows}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="list" >
           {(provided) => {
            return <div ref={provided.innerRef} {...provided.droppableProps}>
-              {orderedShows && orderedShows.map((show, index) => (<Show shows={show} key={index}>
+              {orderedShows && orderedShows.map((show, index) => (<Show shows={show} key={index} roomData={roomData}>
               {provided.placeholder}
               </Show>))}
               <div></div>

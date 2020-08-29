@@ -5,12 +5,10 @@ function TextInput(props) {
 
   return (
     <div className="Input">
-      <form>
         <label>
           {type}
           <input type="text" name={type} text={initialVal} value={value} placeholder onChange={async (event) => { await func(event.target.value)}}/>
         </label>
-      </form>
     </div>
   )
 }
@@ -19,12 +17,10 @@ function EmptyTextInput(props) {
   const {text, func, type, value} = props
   return (
     <div className="Input">
-      <form>
         <label>
           {text}
-          <input type={type} name={text} value={value} onChange={(event) => {func(event.target.value)}}/>
+          <input type={type} name={text} value={value} onChange={async (event) => {await func(event.target.value)}}/>
         </label>
-      </form>
     </div>
   )
 }

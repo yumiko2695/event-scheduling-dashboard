@@ -41,6 +41,8 @@ function RoomForm(props) {
   const [adminId, setAdminId] = useState("");   //adminId
   const [streamId, setStreamId] = useState("");   //streamID
   const [streamLink, setStreamLink] = useState("");   // streamlink
+  const [roomStartTime, setRoomStartTime] = useState("");   // streamlink
+
 
 
   //room + object of the all the values except the key
@@ -66,6 +68,9 @@ useEffect(() => {
 useEffect(() => {
   if(adminId) {setRoom({...room, adminId: adminId})}
 }, [adminId])
+useEffect(() => {
+  if(roomStartTime) {setRoom({...room, roomStartTime: roomStartTime})}
+}, [adminId])
   useEffect(() => {
     if(roomData) {
       setName(roomData.name)
@@ -76,6 +81,7 @@ useEffect(() => {
       setStreamId(roomData.streamId)
       setStreamLink(roomData.streamLink)
       setAdminId(roomData.adminId)
+      setRoomStartTime(roomData.roomStartTime)
       setRoom(roomData)
     }
   }, [roomData, roomKey])
