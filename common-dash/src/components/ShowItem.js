@@ -13,8 +13,7 @@ const showStyle = {
 
 function ShowItem(props) {
   var subtitle;
-  const {show} = props
-  console.log(show);
+  const {show, handleGetShows, getEdition} = props
 
   //handleRemove hook here
 
@@ -29,7 +28,7 @@ function ShowItem(props) {
         <div>bio: {show.description}</div>
         <div>email: {show.email}</div>
         <div>streamLink: {show.stream}</div>
-      <ShowForm show={show} isNew={false} getShows={getShows}/>
+      <ShowForm show={show} isNew={false} handleGetShows={handleGetShows} getEdition={getEdition} />
     </div>
   );
 }

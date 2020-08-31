@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ShowItem from './ShowItem'
 import ShowForm from './ShowForm'
 import RoomForm from './RoomForm'
+import {getEditionData} from '../helpers/editionData'
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -17,13 +18,8 @@ const roomInfoStyle = {
   outlineWidth: '1px',
   outlineColor: 'blue',
   outlineStyle: 'auto',
-  //display: 'flex',
-  // flexDirection: 'vertical'
 }
-const roomLineupStyle = {
-  // display: 'flex',
-  // flexDirection: 'vertical'
-}
+
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -33,14 +29,13 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 function Show(props) {
-  const { show, index }  = props
-  console.log(show)
+  const { show, index, getEdition, handleGetShows }  = props
   return (
     <div>
     {show && show.id ?
-    <Draggable draggableId={show.id} show={show} index={index}>
+    <Draggable draggableId={show.id} show={show} index={index} getEdition={getEdition}>
     {provided => (
-      <ShowItem show={show}
+      <ShowItem show={show} getEdition={getEdition} handleGetShows={handleGetShows}
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
@@ -56,8 +51,7 @@ function Show(props) {
 
 
 function Room(props) {
-  const {roomData, roomKey, getEdition, getShows, shows} = props;
-  console.log(shows)
+  const {roomData, roomKey, getEdition, handleGetShows, shows} = props;
   // function onDragEnd(result) {
   //     if (!result.destination) {
   //       return;
@@ -88,15 +82,15 @@ function Room(props) {
           <p>Location: {roomData.location}</p>
           <p>Stream ID: {roomData.streamId}</p>
           <p>Stream Link: {roomData.streamLink}</p>
-          <p>Start Time: DO WE ADD THIS TO THE DATABASE</p>
-          <RoomForm isNew={false} roomData={roomData} roomKey={roomKey} getEdition={getEdition} isRoom={true}/>
+  <p>Start Time: {roomData.startTime}</p>
+          <RoomForm isNew={false} roomData={roomData} roomKey={roomKey} isRoom={true} getEdition={getEdition} />
         </div>
-        <div className="RoomLineup" style={roomLineupStyle}>
+        <div className="RoomLineup" >
         <DragDropContext onDragEnd={null}>
           <Droppable droppableId="list" >
           {(provided) => {
            return <div ref={provided.innerRef} {...provided.droppableProps}>
-              {shows && shows.map((show, index) => (<Show show={show} key={index} roomData={roomData}>
+              {shows && shows.map((show, index) => (<Show show={show} key={index} getEdition={getEdition} handleGetShows={handleGetShows} roomData={roomData}>
               {provided.placeholder}
               </Show>))}
               <div></div>
@@ -105,7 +99,7 @@ function Room(props) {
           </Droppable>
       </DragDropContext>
       </div>
-      <ShowForm getShows={getShows} isNew={true} shows={shows} roomData={roomData}/>
+      <ShowForm handleGetShows={handleGetShows} getEdition={getEdition} isNew={true} shows={shows} roomData={roomData} />
       </div>
 
   );

@@ -25,10 +25,8 @@ function Dashboard() {
 
   const handleGetShows = async (edition) => {
     const data = await getShows(edition);
-    console.log(data)
     if(data !== 'ERROR') {
       setShows(data);
-      console.log('this is the shows in handle get shows', shows)
     } else {
       console.log('error in the get edition')
     }
@@ -59,8 +57,8 @@ function Dashboard() {
       }
       </div>
       <div className="RoomContainer" style={roomContainerStyle}>
-        {editionData && editionData.organizers ? Object.keys(editionData.organizers).map((room, index) => (
-              <Room roomData={editionData.organizers[room]} roomKey={room} getShows={getShows} getEdition={getEdition} shows={shows[index]} key={index}/>
+        {editionData && editionData.organizers && shows  ? Object.keys(editionData.organizers).map((room, index) => (
+              <Room roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} handleGetShows={handleGetShows} shows={shows[index]} key={index}/>
           )
         ) : null}
 

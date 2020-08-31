@@ -2,6 +2,7 @@ const fetch = require('node-fetch')
 
 export const getCoordinates = (location) => {
   let newLocation  = location.replace(/ /g, '+')
+  newLocation = newLocation.replace(/\+/g, '%2B')
   console.log(newLocation)
     const body = JSON.stringify({
      newLocation, //string that someone searches
@@ -15,6 +16,7 @@ export const getCoordinates = (location) => {
     })
       .then(response => response.json())
       .then(result => {
+        console.log(result)
         if (result.status === 'OK') {
           let geolocation = {
             latitude: result.results[0].geometry.location.lat,

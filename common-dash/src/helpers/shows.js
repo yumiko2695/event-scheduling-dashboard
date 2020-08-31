@@ -7,18 +7,18 @@ export const getShows = async (edition) => {
   const db = firebase.firestore()
   try {
   const showDocs = await db.collection('festival').doc(edition).collection('shows').get()
-  console.log(showDocs)
   const shows = showDocs.docs.map((doc) => {return {id: doc.id, ...doc.data()}})
   let showsByRoom = {};
   shows.map((show) => {
     if(showsByRoom[show.roomId]) {
       let roomArr = showsByRoom[show.roomId];
-      showsByRoom[show.roomId] = roomArr.push(show);
+      showsByRoom[show.roomId] = [...roomArr, show]
     } else {
       showsByRoom[show.roomId] = [show]
     }
     return showsByRoom
   })
+  console.log(showsByRoom);
   Object.keys(showsByRoom).forEach(roomId => {
     let arr = showsByRoom[roomId]
     arr.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
@@ -55,13 +55,14 @@ try {
 export const editShow = async (edition, show, id) => {
   const db = firebase.firestore()
 try {
-  const id = show.id;
-  const oldShow = await db.collection('festival').doc(edition).collection('shows').doc(id).get();
-  const newShow = {...oldShow, ...show}
-  const show = await db.collection('festival').doc(edition).collection('shows').doc(id).update(newShow)
-  return show;
+  console.log(show, ' this is in eidt show')
+  let data = await db.collection('festival').doc(edition).collection('shows').doc(id).get();
+  let oldShowInfo = data.data()
+  console.log('this is the data.data()', oldShowInfo)
+  let newShow = {...oldShowInfo, ...show}
+  await db.collection('festival').doc(edition).collection('shows').doc(id).update(newShow)
 } catch(e) {
-  console.error(e, 'in createroom')
+  console.error(e, 'in edot room')
   return 'ERROR'
 }
 }

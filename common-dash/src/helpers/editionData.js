@@ -6,7 +6,6 @@ export const getEditionData = async (edition) => {
   try {
     const editionDoc = await db.collection("festival").doc(edition).get()
     const editionData = await editionDoc.data();
-    console.log(editionData);
     return editionData;
   } catch(e) {
     console.error(e, 'in getroomdata')
@@ -21,8 +20,6 @@ try {
   let data = await db.collection('festival').doc(edition).get()
   let oldRooms = data.data().rooms
   let newRooms = [...oldRooms, roomKey]
-  console.log('this is new rooms in add room', newRooms)
-  console.log('this is room key add room', roomKey)
   let oldOrganizers = data.data().organizers
   let newOrganizers = {...oldOrganizers, [roomKey]: {...roomData}}
   await db.collection('festival').doc(edition).update({
@@ -65,10 +62,6 @@ export const deleteRoom = async (edition, roomKey) => {
   try {
     let data = await db.collection('festival').doc(edition).get()
     let oldOrganizers = data.data().organizers
-    console.log('in the edition data - old organizers: ', oldOrganizers)
-    console.log('in the edition data -  roomData: ', roomData)
-    console.log('in the edition data -  roomkey: ', roomKey)
-
     let oldRoom = oldOrganizers[roomKey]
     let newOrganizers = {...oldOrganizers, [roomKey]: {...oldRoom, ...roomData}}
     await db.collection('festival').doc(edition).update({
