@@ -28,6 +28,7 @@ function Dashboard() {
     console.log(data)
     if(data !== 'ERROR') {
       setShows(data);
+      console.log('this is the shows in handle get shows', shows)
     } else {
       console.log('error in the get edition')
     }
@@ -44,24 +45,22 @@ function Dashboard() {
   useEffect(() => {
     if(edition) {
       getEdition(edition)
-    }
-  }, [edition])
-
-  useEffect(() => {
-    if(shows) {
       handleGetShows(edition)
     }
-  }, [shows])
+  }, [edition])
 
 
   return (
     <div className="Dashboard">
       <div>
-        <RoomForm getEdition={getEdition} isNew={true}/>
+        {editionData && editionData.rooms ?
+        <RoomForm getEdition={getEdition} isNew={true} roomsArr={editionData.rooms}/>
+        : <RoomForm getEdition={getEdition} isNew={true}/>
+      }
       </div>
       <div className="RoomContainer" style={roomContainerStyle}>
         {editionData && editionData.organizers ? Object.keys(editionData.organizers).map((room, index) => (
-              <Room roomData={editionData.organizers[room]} roomKey={room} getShows={getShows} getEdition={getEdition} shows={shows[room]} key={index}/>
+              <Room roomData={editionData.organizers[room]} roomKey={room} getShows={getShows} getEdition={getEdition} shows={shows[index]} key={index}/>
           )
         ) : null}
 

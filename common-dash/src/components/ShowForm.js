@@ -21,7 +21,7 @@ Modal.setAppElement('#root')
 
 function ShowForm(props) {
   var subtitle;
-  const {roomData, getShows, isNew} = props
+  const {roomData, getShows, isNew, shows, show} = props
 
   const [modalIsOpen,setIsOpen] = React.useState(false);
   const openModal = () => {setIsOpen(true)}
@@ -35,7 +35,9 @@ function ShowForm(props) {
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   const [image, setImage] = useState("")
-  const [setLength, setSetLength] = useState("")
+  const [startTime, setStartTime] = useState("")
+  const [endTime, setEndTime] = useState("")
+
   const [stream, setStream] = useState("")
 
   // const [donate, setDonate] = useState("");
@@ -52,7 +54,6 @@ function ShowForm(props) {
   useEffect(() => {
     if(title) {setShowData({...showData, title: title})}
   }, [title])
-
   useEffect(() => {
     if(artist) {setShowData({...showData, artist: artist, name: artist})}
   }, [artist])
@@ -71,37 +72,61 @@ function ShowForm(props) {
   useEffect(() => {
     if(stream) {setShowData({...showData, stream: stream, link: stream})}
   }, [stream])
-  useEffect(() => {
+  useEffect( () => {
     if(country) {
-      //calculate lat and long here
-      let coordinates = getCoordinates(country)
       setShowData({...showData, country: country})
+
     }
   }, [country])
   useEffect(() => {
-    if(setLength) {
+    if(startTime) {
       //calculate start time and end time here
-      setShowData({...showData, lat: 'x', lon: 'y' })
+      setShowData({...showData, startTime: startTime})
     }
-  }, [setLength])
-   useEffect(() => {
-     if(roomData) {
-       setRoom(roomData.key)
+  }, [startTime])
+  useEffect(() => {
+    if(endTime) {
+      //calculate start time and end time here
+      setShowData({...showData, endTime: endTime})
     }
-   })
+  }, [endTime])
+  useEffect(() => {
+    if(roomData) {
+      setRoom(roomData.roomId)
+    }
+  }, [roomData])
+  useEffect(() => {
+    if(show) {
+      setTitle(show.title)
+      setArtist(show.artist)
+      setCountry(show.country)
+      setCurrentsID(show.currentsID)
+      setDescription(show.description)
+      setEmail(show.email)
+      setImage(show.image)
+      setStartTime(show.startTime)
+      setEndTime(show.endTime)
+    }
+  }, [roomData])
   //handle create show
   const handleCreateShow = async (edition, show) => {
-    const data = await createShow(edition, show);
-    console.log('in the handleCreate')
+    // let location = showData.country.replace(/ /g, '+')
+    // const coordinates = await getCoordinates(location)
+    // lat: coordinates.latitude, lon: coordinates.longitude,
+    let newShow = {...show, roomId: room}
+    console.log(newShow)
+    const data = await createShow(edition, newShow);
   if(data !== 'ERROR') {
     getShows(edition);
     console.log('room was added')
+    console.log(shows);
     //function to refresh edition data!!!!!!
   } else {
     console.log('error in the add edition')
   }
 }
   const handleSubmit = (evt) => {
+    console.log('helllo ', evt.target.value)
     evt.preventDefault()
     // if(evt.target.value === 'delete') {
     //   handleDeleteShow(edition, key)
@@ -119,15 +144,18 @@ function ShowForm(props) {
     setDescription("")
     setEmail("")
     setImage("")
-    setSetLength("")
+    setStartTime("")
+    setEndTime("")
     setStream("")
+    setRoom("")
     setShowData({type: 'string'})
     closeModal()
 }
   return (
     <div>
       <div className="AddShowButton">
-          <button onClick={openModal}>Add Show</button>
+      {isNew ? <button onClick={openModal}>Add Show</button> : <button onClick={openModal}> Edit</button>}
+
         </div>
           <Modal
             isOpen={modalIsOpen}
@@ -140,7 +168,8 @@ function ShowForm(props) {
             <form onSubmit={handleSubmit} >
             <InputComponent text='title' value={title} func={setTitle} type='text' isNewShow={isNew}/>
             <InputComponent text='artist' value={artist} func={setArtist} type='text'isNewShow={isNew}/>
-            <InputComponent text='set length' value={setLength} func={setSetLength} type='text'isNewShow={isNew} />
+            <InputComponent text='start time' value={startTime} func={setStartTime} type='Time'isNewShow={isNew} isTime={true} />
+            <InputComponent text='end time' value={endTime} func={setEndTime} type='Time'isNewShow={isNew} isTime={true} />
             <InputComponent text='streamLink' value={stream} func={setStream} type='text' isNewShow={isNew}/>
             <InputComponent text='email' value={email} func={setEmail} type='text' isNewShow={isNew}/>
             <InputComponent text='currents ID' value={currentsID} func={setCurrentsID} type='text' isNewShow={isNew}/>

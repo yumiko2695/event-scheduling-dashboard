@@ -1,32 +1,42 @@
 import firebase from 'firebase'
-import axios  from 'axios'
+const fetch = require('node-fetch')
 
 
 //get shows
 export const getShows = async (edition) => {
   const db = firebase.firestore()
   try {
-  const showDocs = await db.collection('festival').doc(edition).collection("shows").get()
-  const shows = showDocs.map((doc) => {return {id: doc.id, ...doc.data()}})
-  console.log(shows);
-    //array.sort --> array sort by start time
-  return shows;
+  const showDocs = await db.collection('festival').doc(edition).collection('shows').get()
+  console.log(showDocs)
+  const shows = showDocs.docs.map((doc) => {return {id: doc.id, ...doc.data()}})
+  let showsByRoom = {};
+  shows.map((show) => {
+    if(showsByRoom[show.roomId]) {
+      let roomArr = showsByRoom[show.roomId];
+      showsByRoom[show.roomId] = roomArr.push(show);
+    } else {
+      showsByRoom[show.roomId] = [show]
+    }
+    return showsByRoom
+  })
+  Object.keys(showsByRoom).forEach(roomId => {
+    let arr = showsByRoom[roomId]
+    arr.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+    showsByRoom[roomId] = arr;
+  })
+  return showsByRoom;
   } catch(e) {
   console.error(e)
   }
-  }
-// add show
+}
+//create show
 export const createShow = async (edition, show) => {
+  const db = firebase.firestore()
 try {
-  let request = {
-    data: show,
-    festId: edition
-  }
-  const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/fest/submitApprovedCommonStream`, request);
-  console.log(res);
-  return res;
+  const showDocs = await db.collection('festival').doc(edition).collection('shows').add(show)
+  console.log(showDocs)
 } catch(e) {
-  console.error(e, 'in createroom')
+  console.error(e, 'in create show')
   return 'ERROR'
 }
 }

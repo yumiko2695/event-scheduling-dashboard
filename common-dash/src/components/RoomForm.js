@@ -25,7 +25,7 @@ Modal.setAppElement('#root')
 
 function RoomForm(props) {
   var subtitle;
-  const {getEdition, isNew, roomData, roomKey} = props;
+  const {getEdition, isNew, roomData, roomKey, roomsArr} = props;
 
   //opening modal
   const [modalIsOpen,setIsOpen] = React.useState(false);
@@ -42,6 +42,7 @@ function RoomForm(props) {
   const [streamId, setStreamId] = useState("");   //streamID
   const [streamLink, setStreamLink] = useState("");   // streamlink
   const [roomStartTime, setRoomStartTime] = useState("");   // streamlink
+  const [roomId, setRoomId] = useState("");   //room id
 
 
 
@@ -75,7 +76,6 @@ useEffect(() => {
     if(roomData) {
       setName(roomData.name)
       setSubName(roomData.subName)
-      setKey(roomKey)
       setLocation(roomData.location)
       setCollective(roomData.collective)
       setStreamId(roomData.streamId)
@@ -84,9 +84,16 @@ useEffect(() => {
       setRoomStartTime(roomData.roomStartTime)
       setRoom(roomData)
     }
-  }, [roomData, roomKey])
+    if(roomsArr) {
+      setRoomId(roomsArr.length)
+    }
+    if(roomKey) {
+      setKey(roomKey)
+    }
+  }, [roomData, roomKey, roomsArr])
   const handleCreateRoom = async (edition, key, room) => {
-      const data = await createRoom(edition, key, room);
+    let newRoom = {...room, roomId: roomId}
+      const data = await createRoom(edition, key, newRoom);
     if(data !== 'ERROR') {
       getEdition(edition)
       console.log('room was added')
@@ -148,14 +155,14 @@ useEffect(() => {
             >
               {isNew ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Room</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Room</h2>}
               <form onSubmit={(event, isNew) => {handleSubmit(event, isNew)}} >
-                <InputComponent value={name} func={setName} text="Room Name" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={subName} func={setSubName} text="Collective Name" isNewFormEntry={isNew} roomData={roomData}/>
-                {isNew ? <InputComponent value={key} func={setKey} text="Collective Abbreviation (ex. failed units --> FE)" isNewFormEntry={isNew}/> : <></>}
-                <InputComponent value={location} func={setLocation} text="Location" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={collective} func={setCollective} text="Collective ID" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={adminId} func={setAdminId} text="Admin ID" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={streamId} func={setStreamId} text="Stream ID" isNewFormEntry={isNew} roomData={roomData}/>
-                <InputComponent value={streamLink} func={setStreamLink} text="stream link" isNewFormEntry={isNew} roomData={roomData}/>
+                <InputComponent text='Room Name' value={name} func={setName} isNewFormEntry={isNew.toString()} roomData={roomData}/>
+                <InputComponent text='Collective Name' value={subName} func={setSubName} isNewFormEntry={isNew.toString()} roomData={roomData}/>
+                {isNew ? <InputComponent text='Collective Abbreviation (ex. failed units --> FE)' value={key} func={setKey}  isNewFormEntry={isNew.toString()}/> : <></>}
+                <InputComponent text="Location" value={location} func={setLocation} isNewFormEntry={isNew.toString()} roomData={roomData}/>
+                <InputComponent value={collective} func={setCollective} text="Collective ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
+                <InputComponent value={adminId} func={setAdminId} text="Admin ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
+                <InputComponent value={streamId} func={setStreamId} text="Stream ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
+                <InputComponent value={streamLink} func={setStreamLink} text="stream link" isNewFormEntry={isNew.toString()} roomData={roomData}/>
              {isNew ? <input type="submit" value="Submit" /> : <input type="submit" value="submit edit" />}
               {!isNew ? <input type="submit" value="delete" onClick={handleSubmit}/> : <></>}
               </form>

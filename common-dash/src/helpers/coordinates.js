@@ -1,43 +1,32 @@
-import axios from 'axios'
 const fetch = require('node-fetch')
-const endpoint = process.env.REACT_APP_BACKEND_URL
 
-
-// export const getCoordinates = async (location) => {
-//   try {
-//     let request = {body: location}
-//     console.log(endpoint, 'this is the endpoint')
-//     console.log(location, 'this is the llocaton')
-//     let coordinates = await axios.post(`${endpoint}/getGPSFromAddress`, request);
-//     console.log(coordinates);
-//     console.log('got coordinates')
-//     return coordinates;
-//   } catch(e) {
-//     console.error(e)
-//   }
-// }
-
-export const getCoordinates = async (location) => {
-  try {
+export const getCoordinates = (location) => {
+  let newLocation  = location.replace(/ /g, '+')
+  console.log(newLocation)
     const body = JSON.stringify({
-      location, //string that someone searches
+     newLocation, //string that someone searches
     })
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/getGPSFromAddress`, {
+    return fetch(`${process.env.REACT_APP_BACKEND_URL}/getGPSFromAddress`, {
       method: 'post',
       headers: {
-                  'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
               },
-      body,
+      body
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.status === 'OK') {
+          let geolocation = {
+            latitude: result.results[0].geometry.location.lat,
+            longitude: result.results[0].geometry.location.lng,
+          }
+          return geolocation;
+        }
+        return result;
       })
-    if (response.status === 'OK') {
-        let geolocation = {
-      latitude: response.results[0].geometry.location.lat,
-      longitude: response.results[0].geometry.location.lng,
-    }
-    return geolocation;
-  }
-  } catch(e) {
-    console.error(e)
-  }
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
 
 }
