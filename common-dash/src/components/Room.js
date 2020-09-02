@@ -7,22 +7,21 @@ import {getEditionData} from '../helpers/editionData'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const roomStyle = {
-  outlineWidth: '.5px',
-  outlineColor: 'black',
-  outlineStyle: 'auto',
+  
   display: 'flex',
   flexDirection: 'column',
   padding: '3px'
 }
 const roomInfoStyle = {
   outlineWidth: '1px',
-  outlineColor: 'blue',
+  borderBottom: '1px solid rgba(255,255,255,.15)',
   outlineStyle: 'auto',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
   padding: 16,
   maxWidth: 240,
+  textAlign: 'left',
 }
 
 const reorder = (list, startIndex, endIndex) => {
@@ -83,11 +82,13 @@ function Room(props) {
         <div className="RoomInfo" style={roomInfoStyle}>
         <div style={{opacity: .54}}>Room {roomData.roomId} </div>
           <div style={{marginBottom: 8, fontWeight: 500}}>Room Name: {roomData.name}</div>
-          <div style={{marginBottom: 8}}>Collective: {roomData.subName}</div>
-          <div style={{marginBottom: 8}}>Start Time: {roomData.startTime}</div>
-          <div>Location: {roomData.location}</div>
-          <div>Stream ID: {roomData.streamId}</div>
-          <div>Stream Link: {roomData.streamLink}</div>
+          <div style={{fontSize: 11, marginBottom: 16, paddingBottom: 8}}>
+            <div style={{marginBottom: 8}}>Start Time: {roomData.startTime}</div>
+            <div>Collective ID: {roomData.subName}</div>
+            <div>Location: {roomData.location}</div>
+            <div>Stream ID: {roomData.streamId}</div>
+            <div>Stream Link: {roomData.streamLink}</div>
+          </div>
           <RoomForm isNew={false} roomData={roomData} roomKey={roomKey} isRoom={true} getEdition={getEdition} />
         </div>
         <div className="RoomLineup" >

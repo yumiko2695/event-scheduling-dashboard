@@ -1,0 +1,33 @@
+[debug] [2020-09-02T23:55:43.520Z] ----------------------------------------------------------------------
+[debug] [2020-09-02T23:55:43.521Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy --only hosting:common-new-dash
+[debug] [2020-09-02T23:55:43.521Z] CLI Version:   8.9.0
+[debug] [2020-09-02T23:55:43.521Z] Platform:      darwin
+[debug] [2020-09-02T23:55:43.521Z] Node Version:  v12.18.3
+[debug] [2020-09-02T23:55:43.522Z] Time:          Thu Sep 03 2020 11:55:43 GMT+1200 (New Zealand Standard Time)
+[debug] [2020-09-02T23:55:43.522Z] ----------------------------------------------------------------------
+[debug] [2020-09-02T23:55:43.522Z] 
+[debug] [2020-09-02T23:55:43.528Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-09-02T23:55:43.528Z] > authorizing via signed-in user
+[debug] [2020-09-02T23:55:43.529Z] [iam] checking project curator-f2347 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-09-02T23:55:43.531Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/curator-f2347:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2020-09-02T23:55:44.057Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 02 Sep 2020 23:55:43 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=55","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-09-02T23:55:44.058Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/curator-f2347  
+ 
+[debug] [2020-09-02T23:55:44.592Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 02 Sep 2020 23:55:44 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] 
+[info] === Deploying to 'curator-f2347'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2020-09-02T23:55:44.595Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/common-new-dash/versions  
+ {"config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2020-09-02T23:55:45.599Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 02 Sep 2020 23:55:45 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] i  hosting[common-new-dash]: beginning deploy... 
+[info] i  hosting[common-new-dash]: found 19 files in build 
+[debug] [2020-09-02T23:55:46.135Z] [hosting] hash cache [YnVpbGQ] stored for 19 files
+[debug] [2020-09-02T23:55:46.135Z] [hosting][hash queue][FINAL] {"max":521,"min":8,"avg":39,"active":0,"complete":19,"success":19,"errored":0,"retried":0,"total":19,"elapsed":526}
+[debug] [2020-09-02T23:55:46.135Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/common-new-dash/versions/58d967a79b0eebb6:populateFiles  
+ <request body omitted>
+[debug] [2020-09-02T23:55:46.966Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 02 Sep 2020 23:55:46 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-09-02T23:55:46.971Z] [hosting][populate queue][FINAL] {"max":834,"min":834,"avg":834,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":837}
+[debug] [2020-09-02T23:55:46.971Z] [hosting] uploads queued: 6
