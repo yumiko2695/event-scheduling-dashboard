@@ -4,7 +4,9 @@ import firebase from 'firebase'
 export const getEditionData = async (edition) => {
   const db = firebase.firestore()
   try {
+    console.log(edition)
     const editionDoc = await db.collection("festival").doc(edition).get()
+    console.log(editionDoc)
     const editionData = await editionDoc.data();
     return editionData;
   } catch(e) {

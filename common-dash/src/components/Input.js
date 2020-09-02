@@ -1,5 +1,5 @@
 import React from 'react';
-import { values } from 'lodash';
+// import { values } from 'lodash';
 
 function TextInputShow(props) {
   const {func, type, value, text, initialVal, isRoom } = props

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Modal from 'react-modal'
 import InputComponent from './Input'
 import {createRoom, editRoom, deleteRoom} from '../helpers/editionData'
-const edition = 'test';
+//const edition = 'test';//FIXME this should be passed in
 
 const roomFormStyle = {
   paddingTop: '5vh',
@@ -10,7 +10,12 @@ const roomFormStyle = {
 }
 
 const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,.8)',
+  },
   content : {
+    color: 'white',
+    backgroundColor: 'black',
     top                   : '50%',
     left                  : '50%',
     right                 : 'auto',
@@ -25,7 +30,7 @@ Modal.setAppElement('#root')
 
 function RoomForm(props) {
   var subtitle;
-  const {getEdition, isNew, roomData, roomKey, roomsArr} = props;
+  const {getEdition, isNew, roomData, roomKey, roomsArr, edition} = props;
 
   //opening modal
   const [modalIsOpen,setIsOpen] = React.useState(false);
@@ -121,6 +126,7 @@ useEffect(() => {
     }
   }
 
+  //FIXME consolidate the state and setter
   const handleSubmit = (evt) => {
     if(evt.target.value === 'delete') {
       handleDeleteRoom(edition, key)
@@ -161,7 +167,7 @@ useEffect(() => {
                 <InputComponent text="Location" value={location} func={setLocation} isNewFormEntry={isNew.toString()} roomData={roomData}/>
                 <InputComponent value={collective} func={setCollective} text="Collective ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
                 <InputComponent value={adminId} func={setAdminId} text="Admin ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
-                <InputComponent value={streamId} func={setStreamId} text="Stream ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
+                <InputComponent value={streamId} func={setStreamId} text="Stream Key" isNewFormEntry={isNew.toString()} roomData={roomData}/>
                 <InputComponent value={streamLink} func={setStreamLink} text="stream link" isNewFormEntry={isNew.toString()} roomData={roomData}/>
              {isNew ? <input type="submit" value="Submit" /> : <input type="submit" value="submit edit" />}
               {!isNew ? <input type="submit" value="delete" onClick={handleSubmit}/> : <></>}

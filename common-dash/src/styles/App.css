@@ -1,7 +1,37 @@
+@import url('https://use.typekit.net/uir2eec.css');
+
 .App {
   text-align: center;
+  font-family: nimbus-sans, sans-serif;
+  background-color: black;
+  color: white;
+  height: 100vh;
 }
-
+button, input[type=submit] {
+  padding: 16px;
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  cursor: pointer;
+  transition: .3s all;
+}
+input[type=submit] {
+  min-width: 360px;
+}
+button:hover {
+  background-color: rgba(255,255,255,.15);
+}
+input {
+  padding: 8px;
+  margin: 8px;
+  background-color: transparent;
+  border: 1px solid rgba(255,255,255,.33);
+  outline: 0px solid transparent;
+  
+}
+input::placeholder {
+  color: rgba(255,255,255,.15);
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
