@@ -3,7 +3,9 @@ import Modal from 'react-modal'
 import InputComponent from './Input'
 import {createShow, deleteShow, editShow} from '../helpers/shows'
 import {getCoordinates} from '../helpers/coordinates'
-import { getEditionData } from '../helpers/editionData';
+import firebase from "firebase";
+import FileUploader from "react-firebase-file-uploader";
+
 const edition = 'test';
 
 
@@ -45,11 +47,14 @@ function ShowForm(props) {
   const [currentsID, setCurrentsID] = useState("");
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
-  const [image, setImage] = useState("")
   const [startTime, setStartTime] = useState("")
   const [endTime, setEndTime] = useState("")
   const [stream, setStream] = useState("")
   const [room, setRoom] = useState("")
+  const [imageURL, setImageURL] = useState("")
+  const [isUploading, setIsUploading] = useState(false)
+  const [progress, setProgress] = useState(0)
+
   // const [created, setCreated] = useState("");
   // const [donate, setDonate] = useState("");
 
@@ -71,8 +76,8 @@ function ShowForm(props) {
     if(email) {setShowData({...showData, email: email})}
   }, [email])
   useEffect(() =>    {
-    if(image) {setShowData({...showData, image: image})}
-  }, [image])
+    if(imageURL) {setShowData({...showData, imageURL: imageURL})}
+  }, [imageURL])
   useEffect(() => {
     if(stream) {setShowData({...showData, stream: stream, link: stream})}
   }, [stream])
@@ -106,13 +111,35 @@ function ShowForm(props) {
       setCurrentsID(show.currentsID)
       setDescription(show.description)
       setEmail(show.email)
-      setImage(show.image)
+      setImageURL(show.image)
       setStartTime(show.startTime)
       setEndTime(show.endTime)
     }
   }, [roomData])
 
-
+const handleUploadStart = () => {
+  setIsUploading(true);
+  setProgress(0);
+}
+const handleProgress = (progress) => {
+  setProgress(progress)
+}
+const handleUploadError = (error) => {
+  setIsUploading(false)
+  console.error(error)
+}
+const handleUploadSuccess = (filename) => {
+  setImageURL(filename)
+  setProgress(100)
+  setIsUploading(false)
+  firebase
+    .storage()
+    .ref("images")
+    .child(filename)
+    .getDownloadURL()
+    .then(url => {setImageURL(url)
+    setShowData({...roomData, imageURL: url })});
+};
 const handleGetCoordinates = async (country) => {
   let newCountry = country + ' ';
   const data = await getCoordinates(newCountry);
@@ -179,7 +206,7 @@ const handleSubmit = (evt) => {
   setCountry("")
   setDescription("")
   setEmail("")
-  setImage("")
+  setImageURL("")
   setStartTime("")
   setEndTime("")
   setStream("")
@@ -207,7 +234,7 @@ const handleSubmit = (evt) => {
             <InputComponent text='title' value={title} func={setTitle} type='text' isNewShow={isNew.toString()}/>
             <InputComponent text='artist' value={artist} func={setArtist} type='text'isNewShow={isNew.toString()}/>
             <InputComponent text='start time' value={startTime} func={setStartTime} type='Time'isNewShow={isNew.toString()} isTime={true.toString()} />
-            <InputComponent text='end time' value={endTime} func={setEndTime} type='Time'isNewShow={isNew.toString()} isTime={true.toString()} />
+            <InputComponent text='end time' value={endTime} func={setEndTime} type='DateTime'isNewShow={isNew.toString()} isTime={true.toString()} />
             <InputComponent text='streamLink' value={stream} func={setStream} type='text' isNewShow={isNew.toString()}/>
             <InputComponent text='email' value={email} func={setEmail} type='text' isNewShow={isNew.toString()}/>
             <InputComponent text='currents ID' value={currentsID} func={setCurrentsID} type='text' isNewShow={isNew.toString()}/>
@@ -216,8 +243,22 @@ const handleSubmit = (evt) => {
               <InputComponent text='location' value={country} func={setCountry} type='text' isNewShow={isNew} isLocation={true}/>
                 <button name='coordinates'onClick={handleClick}>Get Location</button>
             </div>
+            <label>Image:</label>
+          {isUploading && <p>Progress: {progress}</p>}
+          {imageURL && <div style="max-height:450px; max-width:450px; overflow: hidden">
+   <img src={imageURL} />
+</div>}
+          <FileUploader
+            accept="image/*"
+            name="imageURL"
+            randomizeFilename
+            storageRef={firebase.storage().ref("images")}
+            onUploadStart={handleUploadStart}
+            onUploadError={handleUploadError}
+            onUploadSuccess={handleUploadSuccess}
+            onProgress={handleProgress}
+          />
 
-            <InputComponent text='image' value={image} func={setImage} type="file" isImage={true} isNewShow={isNew} />
             {isNew ? <input type="submit" value="submit" onClick={handleSubmit}/> : <input type="submit" value="submit edit" onClick={handleSubmit}/>}
             {!isNew ? <input type="submit" value="delete" onClick={handleSubmit}/> : <div/>}
           </form>
