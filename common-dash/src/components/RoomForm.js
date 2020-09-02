@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Modal from 'react-modal'
 import InputComponent from './Input'
 import {createRoom, editRoom, deleteRoom} from '../helpers/editionData'
-const edition = 'test';
+//const edition = 'test';//FIXME this should be passed in
 
 const roomFormStyle = {
   paddingTop: '5vh',
@@ -25,7 +25,7 @@ Modal.setAppElement('#root')
 
 function RoomForm(props) {
   var subtitle;
-  const {getEdition, isNew, roomData, roomKey, roomsArr} = props;
+  const {getEdition, isNew, roomData, roomKey, roomsArr, edition} = props;
 
   //opening modal
   const [modalIsOpen,setIsOpen] = React.useState(false);

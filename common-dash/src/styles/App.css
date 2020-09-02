@@ -1,7 +1,23 @@
+@import url('https://use.typekit.net/uir2eec.css');
+
 .App {
   text-align: center;
+  font-family: nimbus-sans, sans-serif;
+  background-color: black;
+  color: white;
+  height: 100vh;
 }
-
+button {
+  padding: 16px;
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  cursor: pointer;
+  transition: .3s all;
+}
+button:hover {
+  background-color: rgba(255,255,255,.15);
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -35,7 +35,7 @@ function App() {
 
   return (
     <div className="App">
-    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+    {!authed && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>}
       {authed && <Dashboard authed={authed}  />}    </div>
   );
 }

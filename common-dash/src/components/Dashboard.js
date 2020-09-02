@@ -4,7 +4,7 @@ import RoomForm from './RoomForm'
 import {getEditionData} from '../helpers/editionData'
 import {getShows} from '../helpers/shows'
 
-const edition = 'common3';
+const edition = 'test';
 
 
 const roomContainerStyle = {
@@ -15,8 +15,10 @@ const roomContainerStyle = {
   paddingRight: '1vw',
   paddingTop: '5vh',
   outlineWidth: '3px',
-  outlineColor: 'red',
+  
   outlineStyle: 'auto',
+  margin: 16,
+  padding: 24,
 }
 
 const dashboardButtonStyle = {
@@ -24,7 +26,9 @@ const dashboardButtonStyle = {
 }
 
 const dashboardTitleStyle = {
-  padding: '1vh'
+  padding: '8px',
+  fontSize: 48,
+  fontWeight: 300,
 }
 
 function Dashboard() {
@@ -42,6 +46,7 @@ function Dashboard() {
   const getEdition = async (edition) => {
     const data = await getEditionData(edition);
     if(data !== 'ERROR') {
+      console.log(data)
       setEditionData(data);
     } else {
       console.log('error in the get edition')
@@ -59,15 +64,18 @@ function Dashboard() {
   return (
     <div className="Dashboard">
       <div className="DashBoardButton" style={dashboardButtonStyle}>
-        <div className="dashboardTitle" style={dashboardTitleStyle}><h1>Dashboard</h1></div>
-        {editionData && editionData.rooms ?
-        <RoomForm getEdition={getEdition} isNew={true} roomsArr={editionData.rooms}/>
-        : <RoomForm getEdition={getEdition} isNew={true}/>
+    <div className="dashboardTitle" style={dashboardTitleStyle}>COMMON EDITION: {edition}</div>
+  <div>START TIME: {edition && editionData && editionData.start && new Date(editionData.start).toString()}</div>
+  <div>END TIME: {edition && editionData && editionData.end && new Date(editionData.end).toString()}</div>
+        {(editionData && editionData.rooms) ?
+        <RoomForm edition={edition} getEdition={getEdition} isNew={true} roomsArr={editionData.rooms}/>
+        : <RoomForm edition={edition} getEdition={getEdition} isNew={true}/>
       }
       </div>
+      <div>ROOMS</div>
       <div className="RoomContainer" style={roomContainerStyle}>
         {editionData && editionData.organizers && shows  ? Object.keys(editionData.organizers).map((room, index) => (
-              <Room roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} handleGetShows={handleGetShows} shows={shows[index]} key={index}/>
+              <Room edition={edition} roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} handleGetShows={handleGetShows} shows={shows[index]} key={index}/>
           )
         ) : null}
 
