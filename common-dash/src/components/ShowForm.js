@@ -112,6 +112,7 @@ function ShowForm(props) {
     }
   }, [roomData])
 
+
 const handleGetCoordinates = async (country) => {
   let newCountry = country + ' ';
   const data = await getCoordinates(newCountry);
@@ -170,7 +171,7 @@ const handleSubmit = (evt) => {
     handleEditShow(edition, showData, show.id)
   }
   if(evt.target.value === 'submit') {
-    handleCreateShow(edition, showData, show.id);
+    handleCreateShow(edition, showData);
   }
   setTitle("")
   setArtist("")
@@ -216,7 +217,7 @@ const handleSubmit = (evt) => {
                 <button name='coordinates'onClick={handleClick}>Get Location</button>
             </div>
 
-            <InputComponent text='image' value={image} func={setImage} type="image" isNewShow={isNew} />
+            <InputComponent text='image' value={image} func={setImage} type="file" isImage={true} isNewShow={isNew} />
             {isNew ? <input type="submit" value="submit" onClick={handleSubmit}/> : <input type="submit" value="submit edit" onClick={handleSubmit}/>}
             {!isNew ? <input type="submit" value="delete" onClick={handleSubmit}/> : <div/>}
           </form>

@@ -2,12 +2,13 @@ const fetch = require('node-fetch')
 
 export const getCoordinates = (location) => {
   let newLocation  = location.replace(/ /g, '+')
-  newLocation = newLocation.replace(/\+/g, '%2B')
+  // newLocation = newLocation.replace(/\+/g, '%2B')
   console.log(newLocation)
-    const body = JSON.stringify({
-     newLocation, //string that someone searches
+    let body = JSON.stringify({
+      newLocation
+
     })
-    return fetch(`${process.env.REACT_APP_BACKEND_URL}/getGPSFromAddress`, {
+    return fetch(`${process.env.REACT_APP_BACKEND_URL}/getGPSFromAddress/`, {
       method: 'post',
       headers: {
               'Content-Type': 'application/json',
@@ -22,9 +23,9 @@ export const getCoordinates = (location) => {
             latitude: result.results[0].geometry.location.lat,
             longitude: result.results[0].geometry.location.lng,
           }
-          return geolocation;
+          return geolocation
         }
-        return result;
+        return result
       })
       .catch((error) => {
         console.error('Error:', error);

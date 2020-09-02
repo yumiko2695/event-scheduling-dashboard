@@ -49,9 +49,25 @@ function TimeInput(props) {
   )
 }
 
+function ImageInput(props) {
+  const {text, func, type, value} = props
+  return (
+    <div className="Input">
+        <label>
+          {text}
+          <input type="file" name={text} onChange={async (event) => {await func(event.target.files[0])}} required/>
+        </label>
+    </div>
+  )
+}
+
 
 function InputComponent(props) {
-  const {func, type, isNewFormEntry, value, roomData, text, isNewShow, isTime, isRoom} = props
+  const {func, type, isNewFormEntry, value, roomData, text, isNewShow, isTime, isRoom, isImage} = props
+
+  if(isImage) {
+    return <ImageInput func={func}/>
+  }
   if(isTime) {
     return  <TimeInput func={func} text={text} />
   }

@@ -19,6 +19,14 @@ const roomContainerStyle = {
   outlineStyle: 'auto',
 }
 
+const dashboardButtonStyle = {
+  padding: '3vh',
+}
+
+const dashboardTitleStyle = {
+  padding: '1vh'
+}
+
 function Dashboard() {
   const [editionData, setEditionData] = useState(false)
   const [shows, setShows] = useState(false);
@@ -50,7 +58,8 @@ function Dashboard() {
 
   return (
     <div className="Dashboard">
-      <div>
+      <div className="DashBoardButton" style={dashboardButtonStyle}>
+        <div className="dashboardTitle" style={dashboardTitleStyle}><h1>Dashboard</h1></div>
         {editionData && editionData.rooms ?
         <RoomForm getEdition={getEdition} isNew={true} roomsArr={editionData.rooms}/>
         : <RoomForm getEdition={getEdition} isNew={true}/>

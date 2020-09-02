@@ -33,7 +33,7 @@ function Show(props) {
   return (
     <div>
     {show && show.id ?
-    <Draggable draggableId={show.id} show={show} index={index} getEdition={getEdition}>
+    <Draggable draggableId={index} show={show} index={index} getEdition={getEdition}>
     {provided => (
       <ShowItem show={show} getEdition={getEdition} handleGetShows={handleGetShows}
         ref={provided.innerRef}
@@ -76,13 +76,13 @@ function Room(props) {
   return (
       <div className="Room" style={roomStyle}>
         <div className="RoomInfo" style={roomInfoStyle}>
-        <p>Room Num: {roomData.roomId} </p>
-          <h1>Collective Name: {roomData.subName}</h1>
-          <h2>Room Name: {roomData.name}</h2>
+        <p>Room {roomData.roomId} </p>
+          <h3>Collective: {roomData.subName}</h3>
+          <h3>Room Name: {roomData.name}</h3>
+          <h3>Start Time: {roomData.startTime}</h3>
           <p>Location: {roomData.location}</p>
           <p>Stream ID: {roomData.streamId}</p>
           <p>Stream Link: {roomData.streamLink}</p>
-  <p>Start Time: {roomData.startTime}</p>
           <RoomForm isNew={false} roomData={roomData} roomKey={roomKey} isRoom={true} getEdition={getEdition} />
         </div>
         <div className="RoomLineup" >

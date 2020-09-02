@@ -1,14 +1,31 @@
 import React, {useState} from 'react';
 import ShowForm from './ShowForm'
-import {getShows} from '../helpers/shows'
 
 const showStyle = {
   outlineWidth: '.5px',
   outlineColor: 'green',
   outlineStyle: 'auto',
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'rows',
   padding: '3px'
+}
+
+const showLeftStyle = {
+  padding: '3px',
+  textAlign: 'left',
+  flexGrow: '1',
+}
+
+const showMiddleStyle = {
+  padding: '3px',
+  textAlign: 'left',
+  flexGrow: '2'
+}
+const showRightStyle = {
+  padding: '3px',
+  textAlign: 'right',
+  alignItems: 'center',
+  flexGrow: '1'
 }
 
 function ShowItem(props) {
@@ -19,16 +36,25 @@ function ShowItem(props) {
 
   return (
     <div className="Show" style={showStyle}>
-      <div>title: {show.title}</div>
-        <div>artist: {show.artist}</div>
-        <div>start: {show.startTime}</div>
-        <div>end: {show.endTime}</div>
-        <div>location: {show.country}</div>
-        <div>currentsID: {show.currentsID}</div>
+      <div className="ShowLeft" style={showLeftStyle}>
+      <h3><u>start</u>:</h3>
+      <h3>{show.startTime}</h3>
+        <h3><u>end</u>:</h3>
+        <h3>{show.endTime}</h3>
+      </div>
+      <div className="ShowMiddle" style={showMiddleStyle}>
+      <div>title: <b>{show.title}</b></div>
+        <div>artist: <b>{show.artist}</b></div>
+        <div>location: <b>{show.country}</b></div>
+        <div>currentsID: <b>{show.currentsID}</b></div>
         <div>bio: {show.description}</div>
-        <div>email: {show.email}</div>
-        <div>streamLink: {show.stream}</div>
+        <div>email: <b>{show.email}</b></div>
+        <div>streamLink: <b>{show.link}</b></div>
+        <div>streamId: <b>{show.stream}</b></div>
+      </div>
+      <div className="ShowRight" style={showRightStyle}>
       <ShowForm show={show} isNew={false} handleGetShows={handleGetShows} getEdition={getEdition} />
+      </div>
     </div>
   );
 }
