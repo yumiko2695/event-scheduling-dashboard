@@ -1,5 +1,14 @@
 {
   "projects": {
-    "default": "currents-staging"
+    "default": "curator-f2347"
+  },
+  "targets": {
+    "curator-f2347": {
+      "hosting": {
+        "common-new-dash": [
+          "common-new-dash"
+        ]
+      }
+    }
   }
 }

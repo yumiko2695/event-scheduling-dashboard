@@ -4,7 +4,7 @@ import RoomForm from './RoomForm'
 import {getEditionData} from '../helpers/editionData'
 import {getShows} from '../helpers/shows'
 
-const edition = 'test';
+const edition = 'common3';
 
 
 const roomContainerStyle = {

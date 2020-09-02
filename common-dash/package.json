@@ -26,6 +26,7 @@
   "scripts": {
     "start": "cp local.env .env && react-scripts start",
     "deploy-testing": "cp local.env .env && npm run build && firebase deploy",
+    "deploy": "cp prod.env .env && npm run build && firebase deploy --only hosting:common-new-dash",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
