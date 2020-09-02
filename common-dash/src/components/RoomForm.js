@@ -10,7 +10,12 @@ const roomFormStyle = {
 }
 
 const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,.8)',
+  },
   content : {
+    color: 'white',
+    backgroundColor: 'black',
     top                   : '50%',
     left                  : '50%',
     right                 : 'auto',
@@ -121,6 +126,7 @@ useEffect(() => {
     }
   }
 
+  //FIXME consolidate the state and setter
   const handleSubmit = (evt) => {
     if(evt.target.value === 'delete') {
       handleDeleteRoom(edition, key)
