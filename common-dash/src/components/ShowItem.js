@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import ShowForm from './ShowForm'
 
 const showStyle = {
-  outlineWidth: '.5px',
-  outlineColor: 'green',
-  outlineStyle: 'auto',
+  marginBottom: 8,
+  paddingBottom: 8,
+  borderBottom: '1px solid rgba(255,255,255,.33)',
   display: 'flex',
   flexDirection: 'rows',
   padding: '3px'

@@ -12,8 +12,6 @@ const edition = 'test';
 const customStyles = {
   direction: 'flex',
   flexDirection: 'row',
-  backgroundColor: 'black',
-  color: 'white',
   content : {
     top                   : '50%',
     left                  : '50%',
@@ -21,7 +19,9 @@ const customStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    width: 'auto'
+    width: 'auto',
+    backgroundColor: 'black',
+    color: 'white',
   },
   overlay: {
     backgroundColor: 'rgba(0,0,0,.8)',
