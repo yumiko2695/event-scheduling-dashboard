@@ -161,7 +161,7 @@ useEffect(() => {
                 <InputComponent text="Location" value={location} func={setLocation} isNewFormEntry={isNew.toString()} roomData={roomData}/>
                 <InputComponent value={collective} func={setCollective} text="Collective ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
                 <InputComponent value={adminId} func={setAdminId} text="Admin ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
-                <InputComponent value={streamId} func={setStreamId} text="Stream ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
+                <InputComponent value={streamId} func={setStreamId} text="Stream Key" isNewFormEntry={isNew.toString()} roomData={roomData}/>
                 <InputComponent value={streamLink} func={setStreamLink} text="stream link" isNewFormEntry={isNew.toString()} roomData={roomData}/>
              {isNew ? <input type="submit" value="Submit" /> : <input type="submit" value="submit edit" />}
               {!isNew ? <input type="submit" value="delete" onClick={handleSubmit}/> : <></>}

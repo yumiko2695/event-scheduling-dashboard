@@ -1,5 +1,4 @@
 import firebase from 'firebase'
-const fetch = require('node-fetch')
 
 
 //get shows
@@ -18,10 +17,9 @@ export const getShows = async (edition) => {
     }
     return showsByRoom
   })
-  console.log(showsByRoom);
   Object.keys(showsByRoom).forEach(roomId => {
     let arr = showsByRoom[roomId]
-    arr.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+    arr.sort((a, b) => a.startTime.localeCompare(b.startTime))
     showsByRoom[roomId] = arr;
   })
   return showsByRoom;

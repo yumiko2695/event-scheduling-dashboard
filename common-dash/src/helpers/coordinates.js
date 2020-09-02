@@ -2,10 +2,9 @@ const fetch = require('node-fetch')
 
 export const getCoordinates = (location) => {
   let newLocation  = location.replace(/ /g, '+')
-  // newLocation = newLocation.replace(/\+/g, '%2B')
   console.log(newLocation)
     let body = JSON.stringify({
-      newLocation
+      cleanAddress: newLocation
 
     })
     return fetch(`${process.env.REACT_APP_BACKEND_URL}/getGPSFromAddress/`, {

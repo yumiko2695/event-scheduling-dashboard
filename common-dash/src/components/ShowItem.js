@@ -28,6 +28,16 @@ const showRightStyle = {
   flexGrow: '1'
 }
 
+const imageDivStyle = {
+  maxHeight: '100px',
+  maxWidth: '100px',
+  overflow: 'hidden'
+}
+const imageStyle = {
+  maxWidth:'100%',
+  maxHeight:'100%'
+}
+
 function ShowItem(props) {
   var subtitle;
   const {show, handleGetShows, getEdition} = props
@@ -50,7 +60,10 @@ function ShowItem(props) {
         <div>bio: {show.description}</div>
         <div>email: <b>{show.email}</b></div>
         <div>streamLink: <b>{show.link}</b></div>
-        <div>streamId: <b>{show.stream}</b></div>
+        <div>stream Key: <b>{show.stream}</b></div>
+        <div className="Image" style={imageDivStyle}>
+          <img src={show.imageURL} style={imageStyle}/>
+        </div>
       </div>
       <div className="ShowRight" style={showRightStyle}>
       <ShowForm show={show} isNew={false} handleGetShows={handleGetShows} getEdition={getEdition} />
