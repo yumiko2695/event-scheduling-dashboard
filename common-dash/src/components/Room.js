@@ -18,6 +18,11 @@ const roomInfoStyle = {
   outlineWidth: '1px',
   outlineColor: 'blue',
   outlineStyle: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  padding: 16,
+  maxWidth: 240,
 }
 
 const reorder = (list, startIndex, endIndex) => {
@@ -76,13 +81,13 @@ function Room(props) {
   return (
       <div className="Room" style={roomStyle}>
         <div className="RoomInfo" style={roomInfoStyle}>
-        <p>Room {roomData.roomId} </p>
-          <h3>Collective: {roomData.subName}</h3>
-          <h3>Room Name: {roomData.name}</h3>
-          <h3>Start Time: {roomData.startTime}</h3>
-          <p>Location: {roomData.location}</p>
-          <p>Stream ID: {roomData.streamId}</p>
-          <p>Stream Link: {roomData.streamLink}</p>
+        <div style={{opacity: .54}}>Room {roomData.roomId} </div>
+          <div style={{marginBottom: 8, fontWeight: 500}}>Room Name: {roomData.name}</div>
+          <div style={{marginBottom: 8}}>Collective: {roomData.subName}</div>
+          <div style={{marginBottom: 8}}>Start Time: {roomData.startTime}</div>
+          <div>Location: {roomData.location}</div>
+          <div>Stream ID: {roomData.streamId}</div>
+          <div>Stream Link: {roomData.streamLink}</div>
           <RoomForm isNew={false} roomData={roomData} roomKey={roomKey} isRoom={true} getEdition={getEdition} />
         </div>
         <div className="RoomLineup" >
