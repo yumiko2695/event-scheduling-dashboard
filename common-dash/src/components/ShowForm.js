@@ -39,7 +39,7 @@ Modal.setAppElement('#root')
 
 function ShowForm(props) {
   var subtitle;
-  const {getEdition, handleGetShows, roomData, isNew, shows, show} = props
+  const {getEdition, handleGetShows, roomData, isNew, shows, show, editShow} = props
 
   const [modalIsOpen,setIsOpen] = React.useState(false);
   const openModal = () => {setIsOpen(true)}
@@ -116,6 +116,7 @@ function ShowForm(props) {
       setCurrentsID(show.currentsID)
       setDescription(show.description)
       setEmail(show.email)
+      setStream(show.stream)
       setImageURL(show.image)
       setStartTime(show.startTime)
       setEndTime(show.endTime)
@@ -236,24 +237,24 @@ const handleSubmit = (evt) => {
           >
           {isNew ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Show</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Show</h2>}
             <form onSubmit={handleSubmit} >
-            <InputComponent text='title' value={title} func={setTitle} type='text' isNewShow={isNew.toString()}/>
-            <InputComponent text='artist' value={artist} func={setArtist} type='text'isNewShow={isNew.toString()}/>
-            <InputComponent text='start time' value={startTime} func={setStartTime} type='Time'isNewShow={isNew.toString()} isTime={true.toString()} />
-            <InputComponent text='end time' value={endTime} func={setEndTime} type='DateTime'isNewShow={isNew.toString()} isTime={true.toString()} />
-            <InputComponent text='streamLink' value={stream} func={setStream} type='text' isNewShow={isNew.toString()}/>
-            <InputComponent text='email' value={email} func={setEmail} type='text' isNewShow={isNew.toString()}/>
-            <InputComponent text='currents ID' value={currentsID} func={setCurrentsID} type='text' isNewShow={isNew.toString()}/>
-            <InputComponent text='description' value={description} func={setDescription} type='text' isNewShow={isNew.toString()}/>
-            <div className="Location" style={locationStyle}>
-              <InputComponent text='location' value={country} func={setCountry} type='text' isNewShow={isNew} isLocation={true}/>
+            <InputComponent text='title' placeholder='Title of Performance' editShow={editShow} value={title} func={setTitle} type='text' isNewShow={isNew.toString()}/>
+            <InputComponent text='artist' editShow={editShow}placeholder='Artist Name' value={artist} func={setArtist} type='text'isNewShow={isNew.toString()}/>
+            <InputComponent text='start time' editShow={editShow} value={startTime} func={setStartTime} type='Time'isNewShow={isNew.toString()} isTime={true.toString()} />
+            <InputComponent text='end time' value={endTime} editShow={editShow} func={setEndTime} type='DateTime'isNewShow={isNew.toString()} isTime={true.toString()} />
+            <InputComponent text='streamLink' placeholder='https://network.currents-andata.xyz/live/[KEYHERE].m3u8' value={stream} func={setStream} editShow={editShow} type='text' isNewShow={isNew.toString()}/>
+            <InputComponent placeholder='contact email' text='email' editShow={editShow} value={email} func={setEmail} type='text' isNewShow={isNew.toString()}/>
+            <InputComponent placeholder="Currents ID from template" text='currents ID' value={currentsID} editShow={editShow} func={setCurrentsID} type='text' isNewShow={isNew.toString()}/>
+            <InputComponent placeholder="bio + description of show" text='description' value={description} editShow={editShow} func={setDescription} type='text' isNewShow={isNew.toString()}/>
+            <div className="Location"
+             style={locationStyle}>
+              <InputComponent text='location' value={country} func={setCountry} type='text' isNewShow={isNew} isLocation={true} editShow={true.toString()} placeholder="city, country"/>
                 <button name='coordinates'onClick={handleClick}>Search for GPS</button>
             </div>
-            <div>show GPS here, idk if i searched</div>
+  {showData.lat && showData.lon ? <div>latitude: {showData.lat}, longitude: {showData.lon}</div> : <div>latitude: <br></br> longitude: </div>}
             <label>Image:</label>
           {isUploading && <p>Progress: {progress}</p>}
-          {imageURL && <div style="max-height:450px; max-width:450px; overflow: hidden">
-   <img src={imageURL} />
-</div>}
+          {imageURL && <div>
+  {imageURL}</div>}
           <FileUploader
             accept="image/*"
             name="imageURL"

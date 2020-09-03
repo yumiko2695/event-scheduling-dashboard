@@ -5,7 +5,7 @@
   font-family: nimbus-sans, sans-serif;
   background-color: black;
   color: white;
-  height: 100vh;
+  height: 100%;
 }
 button, input[type=submit] {
   padding: 16px;
@@ -28,7 +28,7 @@ input {
   border: 1px solid rgba(255,255,255,.33);
   outline: 0px solid transparent;
   color: white;
-  
+
 }
 input::placeholder {
   color: rgba(255,255,255,.15);

@@ -40,7 +40,14 @@ export const deleteRoom = async (edition, roomKey) => {
   try {
     let data = await db.collection('festival').doc(edition).get()
     let oldRooms = data.data().rooms
-    let newRooms = [...oldRooms].filter(char => char !== roomKey);
+    console.log(oldRooms)
+    let newRooms = [...oldRooms].reduce((accumulator, currentVal) => {
+      if(currentVal !== roomKey) {
+        accumulator.push(currentVal)
+      }
+      return accumulator
+    }, []);
+    console.log(newRooms)
     let oldOrganizers = data.data().organizers
     let newOrganizers = Object.keys(oldOrganizers).reduce((object, key) => {
       if (key !== roomKey) {
@@ -62,6 +69,7 @@ export const deleteRoom = async (edition, roomKey) => {
   export const editRoom = async (edition, roomKey, roomData) => {
     const db = firebase.firestore()
   try {
+    console.log(edition, roomKey, roomData)
     let data = await db.collection('festival').doc(edition).get()
     let oldOrganizers = data.data().organizers
     let oldRoom = oldOrganizers[roomKey]

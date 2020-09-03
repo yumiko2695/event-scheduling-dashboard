@@ -4,8 +4,9 @@ import RoomForm from './RoomForm'
 import {getEditionData} from '../helpers/editionData'
 import {getShows} from '../helpers/shows'
 
-const edition = 'common3'; //FIXME this should be able to be changed with the right permissions
+//const edition = 'common3'; //FIXME this should be able to be changed with the right permissions
 
+const edition = 'test'
 
 const roomContainerStyle = {
   display: 'flex',
@@ -15,7 +16,7 @@ const roomContainerStyle = {
   paddingRight: '1vw',
   paddingTop: '5vh',
   outlineWidth: '3px',
-  
+
   outlineStyle: 'auto',
   margin: 16,
   padding: 24,
@@ -65,8 +66,8 @@ function Dashboard() {
     <div className="Dashboard">
       <div className="DashBoardButton" style={dashboardButtonStyle}>
     <div className="dashboardTitle" style={dashboardTitleStyle}>COMMON EDITION: {edition}</div>
-  <div>START TIME: {edition && editionData && editionData.start && new Date(editionData.start).toString()}</div>
-  <div>END TIME: {edition && editionData && editionData.end && new Date(editionData.end).toString()}</div>
+  <div>START TIME: {edition && editionData && editionData.start && new Date(editionData.start).toString()} <i>in your local time zone</i></div>
+  <div>END TIME: {edition && editionData && editionData.end && new Date(editionData.end).toString()} <i>in your local time zone</i></div>
         {(editionData && editionData.rooms) ?
         <RoomForm edition={edition} getEdition={getEdition} isNew={true} roomsArr={editionData.rooms}/>
         : <RoomForm edition={edition} getEdition={getEdition} isNew={true}/>
@@ -75,7 +76,7 @@ function Dashboard() {
       <div>ROOMS</div>
       <div className="RoomContainer" style={roomContainerStyle}>
         {editionData && editionData.organizers && shows  ? Object.keys(editionData.organizers).map((room, index) => (
-              <Room edition={edition} roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} handleGetShows={handleGetShows} shows={shows[index]} key={index}/>
+              <Room edition={edition} roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} handleGetShows={handleGetShows} shows={shows[index]} i={index} key={index}/>
           )
         ) : null}
 
