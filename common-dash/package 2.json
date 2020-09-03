@@ -1,0 +1,47 @@
+{
+  "name": "common-dash",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.20.0",
+    "dotenv": "^8.2.0",
+    "emotion": "^10.0.27",
+    "fetch": "^1.1.0",
+    "firebase": "^7.19.0",
+    "lodash": "^4.17.20",
+    "node-fetch": "^2.6.0",
+    "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
+    "react-dom": "^16.13.1",
+    "react-dropdown": "^1.8.0",
+    "react-firebase-file-uploader": "^2.4.3",
+    "react-geocode": "^0.2.1",
+    "react-modal": "^3.11.2",
+    "react-scripts": "3.4.3"
+  },
+  "scripts": {
+    "start": "cp local.env .env && react-scripts start",
+    "deploy-testing": "cp local.env .env && npm run build && firebase deploy",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
