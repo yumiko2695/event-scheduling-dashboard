@@ -220,7 +220,7 @@ const handleSubmit = (evt) => {
   closeModal()
 }
 
-
+  //FIXME add placeholders to all the inputs
   return (
     <div>
       <div className="AddShowButton">
@@ -246,8 +246,9 @@ const handleSubmit = (evt) => {
             <InputComponent text='description' value={description} func={setDescription} type='text' isNewShow={isNew.toString()}/>
             <div className="Location" style={locationStyle}>
               <InputComponent text='location' value={country} func={setCountry} type='text' isNewShow={isNew} isLocation={true}/>
-                <button name='coordinates'onClick={handleClick}>Get Location</button>
+                <button name='coordinates'onClick={handleClick}>Search for GPS</button>
             </div>
+            <div>show GPS here, idk if i searched</div>
             <label>Image:</label>
           {isUploading && <p>Progress: {progress}</p>}
           {imageURL && <div style="max-height:450px; max-width:450px; overflow: hidden">
