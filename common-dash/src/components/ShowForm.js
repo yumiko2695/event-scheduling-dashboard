@@ -147,8 +147,8 @@ const handleGetCoordinates = async (country) => {
   console.log(data, 'data from getCoordinates')
   setShowData({...showData, lat: data.latitude, lon: data.longitude})
   if(data !== 'ERROR') {
-    handleGetShows(edition)
-    getEdition(edition)
+    //handleGetShows(edition)
+    //getEdition(edition)
   } else {
     console.log('error in the get coordinates')
 }}
