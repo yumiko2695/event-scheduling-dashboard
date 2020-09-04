@@ -99,7 +99,8 @@ function Room(props) {
               {shows && shows.map((show, index) => (<Show show={show} key={index} getEdition={getEdition} handleGetShows={handleGetShows} roomData={roomData}>
               {provided.placeholder}
               </Show>))}
-              <div></div>
+              <div>
+              </div>
             </div>
           }}
           </Droppable>

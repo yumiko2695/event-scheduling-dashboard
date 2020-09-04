@@ -10,22 +10,22 @@ const edition = 'common3';
 
 
 const customStyles = {
-direction: 'flex',
-flexDirection: 'row',
-content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)',
-    width: 'auto',
-    backgroundColor: 'black',
-    color: 'white',
-},
-overlay: {
-    backgroundColor: 'rgba(0,0,0,.8)',
-},
+    direction: 'flex',
+    flexDirection: 'row',
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        width: 'auto',
+        backgroundColor: 'black',
+        color: 'white',
+    },
+    overlay: {
+        backgroundColor: 'rgba(0,0,0,.8)',
+    },
 };
 
 const locationStyle = {
@@ -44,7 +44,11 @@ function ShowForm(props) {
     const [modalIsOpen,setIsOpen] = React.useState(false);
     const openModal = () => {setIsOpen(true)}
     const afterOpenModal = () => {subtitle.style.color = '#f00'}
-    const closeModal = () => {setIsOpen(false);}
+
+    const closeModal = () => {
+        console.log('close')
+        setIsOpen(false);
+    }
 
     const [title, setTitle] = useState("")
     const [artist, setArtist] = useState("");
@@ -93,28 +97,28 @@ function ShowForm(props) {
     }, [country])
     useEffect(() => {
         if(startTime) {
-        //calculate start time and end time here
-        setShowData({...showData, startTime: startTime})
+            //calculate start time and end time here
+            setShowData({...showData, startTime: startTime})
         }
     }, [startTime])
     useEffect(() => {
         if(endTime) {
-        //calculate start time and end time here
-        setShowData({...showData, endTime: endTime})
+            //calculate start time and end time here
+            setShowData({...showData, endTime: endTime})
         }
     }, [endTime])
     useEffect(() => {
         if(show) {
-        setTitle(show.title)
-        setArtist(show.artist)
-        setCountry(show.country)
-        setCurrentsID(show.currentsID)
-        setDescription(show.description)
-        setEmail(show.email)
-        setStream(show.stream)
-        setImageURL(show.image)
-        setStartTime(show.startTime)
-        setEndTime(show.endTime)
+            setTitle(show.title)
+            setArtist(show.artist)
+            setCountry(show.country)
+            setCurrentsID(show.currentsID)
+            setDescription(show.description)
+            setEmail(show.email)
+            setStream(show.stream)
+            setImageURL(show.image)
+            setStartTime(show.startTime)
+            setEndTime(show.endTime)
         }
     }, [roomData])
 
@@ -157,16 +161,16 @@ function ShowForm(props) {
         let newShow = {...show, roomId: room}
         console.log(newShow)
         const data = await createShow(edition, newShow);
-    if(data !== 'ERROR') {
-        handleGetShows(edition)
-        getEdition(edition)
-        console.log('room was added')
-        console.log(shows);
-        //function to refresh edition data!!!!!!
-    } else {
-        console.log('error in the add show')
+        if(data !== 'ERROR') {
+            handleGetShows(edition)
+            getEdition(edition)
+            console.log('room was added')
+            console.log(shows);
+            //function to refresh edition data!!!!!!
+        } else {
+            console.log('error in the add show')
+        }
     }
-}
     const handleEditShow = async (edition, show, id) => {
         const data = await editShow(edition, show, id);
         if(data !== 'ERROR') {
@@ -176,7 +180,8 @@ function ShowForm(props) {
         //function to refresh edition data!!!!!!
         } else {
         console.log('error in the edit show')
-        }}
+        }
+    }
     const handleDeleteShow = async (edition, showID) => {
         const data = await deleteShow(edition, showID);
         if(data !== 'ERROR') {
@@ -228,7 +233,7 @@ function ShowForm(props) {
                 contentLabel="Example Modal"
             >
             {formType === 'newShow' ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Show</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Show</h2>}
-                <form onSubmit={handleSubmit} >
+                
                 <InputComponent text='title' placeholder='Title of Performance' formType={formType} value={title} func={setTitle} type='text' />
                 <InputComponent text='artist' placeholder='Artist Name' value={artist} func={setArtist} type='text' formType={formType}/>
                 <InputComponent text='start time' value={startTime} func={setStartTime} isTime='showTime' formType={formType} />
@@ -240,7 +245,7 @@ function ShowForm(props) {
                 <div className="Location"
                 style={locationStyle}>
                 <InputComponent text='location' value={country} func={setCountry} type='text'  isLocation={true} formType={formType} placeholder="city, country"/>
-                    <button name='coordinates'onClick={()=>handleGetCoordinates(country)}>Search for GPS</button>
+                    <button name='coordinates' onClick={()=>handleGetCoordinates(country)}>Search for GPS</button>
                 </div>
     {showData.lat && showData.lon ? <div>latitude: {showData.lat}, longitude: {showData.lon}</div> : <div>latitude: <br></br> longitude: </div>}
                 <label>Image:</label>
@@ -260,7 +265,7 @@ function ShowForm(props) {
 
                 {formType === 'newShow' ? <input type="submit" value="submit" onClick={handleSubmit}/> : <input type="submit" value="submit edit" onClick={handleSubmit}/>}
                 {formType !== 'newShow' ? <input type="submit" value="delete" onClick={handleSubmit}/> : <div/>}
-            </form>
+            
             </Modal>
         </div>
     )

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import Room from './Room'
 import RoomForm from './RoomForm'
-import {getEditionData} from '../helpers/editionData'
-import {getShows} from '../helpers/shows'
+import { getEditionData } from '../helpers/editionData'
+import { getShows } from '../helpers/shows'
 
 const edition = 'common3'; //FIXME this should be able to be changed with the right permissions
 
