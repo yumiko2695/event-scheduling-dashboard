@@ -4,9 +4,9 @@ import RoomForm from './RoomForm'
 import {getEditionData} from '../helpers/editionData'
 import {getShows} from '../helpers/shows'
 
-//const edition = 'common3'; //FIXME this should be able to be changed with the right permissions
+const edition = 'common3'; //FIXME this should be able to be changed with the right permissions
 
-const edition = 'test'
+//const edition = 'test'
 
 const roomContainerStyle = {
   display: 'flex',
@@ -16,7 +16,6 @@ const roomContainerStyle = {
   paddingRight: '1vw',
   paddingTop: '5vh',
   outlineWidth: '3px',
-
   outlineStyle: 'auto',
   margin: 16,
   padding: 24,
