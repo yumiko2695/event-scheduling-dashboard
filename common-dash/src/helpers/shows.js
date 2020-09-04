@@ -20,8 +20,7 @@ export const getShows = async (edition) => {
   Object.keys(showsByRoom).forEach(roomId => {
     let arr = showsByRoom[roomId]
     arr.sort((a, b) => {
-      //FIXME localeCompare doesn't work here, it's not a date
-      return a.startTime && a.startTime.localeCompare(b.startTime)
+      return b.startTime - a.startTime
     })
     showsByRoom[roomId] = arr;
   })

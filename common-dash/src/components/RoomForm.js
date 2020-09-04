@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Modal from 'react-modal'
 import InputComponent from './Input'
+import RoomInputComponent from './InputRooms'
 import {createRoom, editRoom, deleteRoom} from '../helpers/editionData'
 //const edition = 'test';//FIXME this should be passed in
 
@@ -30,74 +31,31 @@ Modal.setAppElement('#root')
 
 function RoomForm(props) {
   var subtitle;
-  const {getEdition, isNew, roomData, roomKey, roomsArr, edition} = props;
-
+  const {getEdition, edition, formType, roomData, roomKey, roomsArr, index} = props;
+  console.log(formType)
   //opening modal
   const [modalIsOpen,setIsOpen] = React.useState(false);
   const openModal = () => {setIsOpen(true)}
   const afterOpenModal = () => {subtitle.style.color = '#f00'}
   const closeModal = () => {setIsOpen(false)}
 
-  const [name, setName] = useState("");   //room name
-  const [subName, setSubName] = useState("");   //collective name
-  const [key, setKey] = useState("");   //room abbreviation
-  const [location, setLocation] = useState("");   //location
-  const [collective, setCollective] = useState("");   //collective id
-  const [adminId, setAdminId] = useState("");   //adminId
-  const [streamId, setStreamId] = useState("");   //streamID
-  const [streamLink, setStreamLink] = useState("");   // streamlink
-  const [roomStartTime, setRoomStartTime] = useState("");   // streamlink
-  const [roomId, setRoomId] = useState("");   //room id
+  const [roomId, setRoomId] = useState(roomKey);   //room id
 
+  const [room, setRoom] = useState({...roomData});
+  const [key, setKey] = useState(false);
 
+  const handleChange = (event) => {
+    if(event.target.name === 'roomStartTime') {
+      console.log(event.target.value)
+      console.log(new Date(event.target.value))
+      setRoom({...room, [event.target.name]: new Date(event.currentTarget.value)})
+    } else {
+      setRoom({...room, [event.target.name]: event.currentTarget.value})
+    }
+  }
 
-  //room + object of the all the values except the key
-  const [room, setRoom] = useState(false);
-  useEffect(() => {
-    if(name) {setRoom({...room, name: name})}
-  }, [name])
-  useEffect(() => {
-    if(location) {setRoom({...room, location: location})}
-  }, [location])
-  useEffect(() => {
-    if(collective) {setRoom({...room, collective: collective})}
-  }, [collective])
-  useEffect(() => {
-    if(subName) {setRoom({...room, subName: subName})}
-  }, [subName])
-  useEffect(() => {
-  if(streamId) {setRoom({...room, streamId: streamId})}
-}, [streamId])
-useEffect(() => {
-  if(streamLink) {setRoom({...room, streamLink: streamLink})}
-}, [streamLink])
-useEffect(() => {
-  if(adminId) {setRoom({...room, adminId: adminId})}
-}, [adminId])
-useEffect(() => {
-  if(roomStartTime) {setRoom({...room, roomStartTime: roomStartTime})}
-}, [adminId])
-  useEffect(() => {
-    if(roomData) {
-      setName(roomData.name)
-      setSubName(roomData.subName)
-      setLocation(roomData.location)
-      setCollective(roomData.collective)
-      setStreamId(roomData.streamId)
-      setStreamLink(roomData.streamLink)
-      setAdminId(roomData.adminId)
-      setRoomStartTime(roomData.roomStartTime)
-      setRoom(roomData)
-    }
-    if(roomsArr) {
-      setRoomId(roomsArr.length)
-    }
-    if(roomKey) {
-      setKey(roomKey)
-    }
-  }, [roomData, roomKey, roomsArr])
   const handleCreateRoom = async (edition, key, room) => {
-    let newRoom = {...room, roomId: roomId}
+    let newRoom = {...room, key: key}
       const data = await createRoom(edition, key, newRoom);
     if(data !== 'ERROR') {
       getEdition(edition)
@@ -116,8 +74,8 @@ useEffect(() => {
       console.log('error in the edit edition')
     }
   }
-  const handleDeleteRoom = async (edition, key) => {
-    const data = await deleteRoom(edition, key);
+  const handleDeleteRoom = async () => {
+    const data = await deleteRoom(edition, roomKey);
     if(data !== 'ERROR') {
       getEdition(edition)
       console.log('room was deleted')
@@ -125,33 +83,26 @@ useEffect(() => {
       console.log('error in the edit edition')
     }
   }
-
   //FIXME consolidate the state and setter
   const handleSubmit = (evt) => {
+    console.log(room)
     if(evt.target.value === 'delete') {
-      handleDeleteRoom(edition, key)
+      handleDeleteRoom(edition, roomKey)
     }
     else if(evt.target.value === 'submit edit') {
-      handleEditRoom(edition, key, room)
+      handleEditRoom(edition, roomKey, room)
     } else {
-      handleCreateRoom(edition, key, room)
+        handleCreateRoom(edition, key, room)
     }
-    setName("")
-    setSubName("")
-    setKey("")
-    setLocation("")
-    setCollective("")
-    setStreamId("")
-    setStreamLink("")
-    setAdminId("")
     setRoom(false)
+    setRoomId(false)
+    setKey("")
     closeModal()
     evt.preventDefault()
 }
-
   return (
     <div className="RoomForm">
-      {isNew ? <button onClick={openModal}>Add Room</button> : <button onClick={openModal}>Edit Room</button>}
+      {formType === 'newRoom' ? <button onClick={openModal}>Add Room</button> : <button onClick={openModal}>Edit Room</button>}
               <Modal
               isOpen={modalIsOpen}
               onAfterOpen={afterOpenModal}
@@ -159,18 +110,19 @@ useEffect(() => {
               style={customStyles}
               contentLabel="Example Modal"
             >
-              {isNew ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Room</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Room</h2>}
-              <form onSubmit={(event, isNew) => {handleSubmit(event, isNew)}} >
-                <InputComponent text='Room Name' value={name} func={setName} isNewFormEntry={isNew.toString()} roomData={roomData}/>
-                <InputComponent text='Collective Name' value={subName} func={setSubName} isNewFormEntry={isNew.toString()} roomData={roomData}/>
-                {isNew ? <InputComponent text='Collective Abbreviation (ex. failed units --> FE)' value={key} func={setKey}  isNewFormEntry={isNew.toString()}/> : <></>}
-                <InputComponent text="Location" value={location} func={setLocation} isNewFormEntry={isNew.toString()} roomData={roomData}/>
-                <InputComponent value={collective} func={setCollective} text="Collective ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
-                <InputComponent value={adminId} func={setAdminId} text="Admin ID" isNewFormEntry={isNew.toString()} roomData={roomData}/>
-                <InputComponent value={streamId} func={setStreamId} text="Stream Key" isNewFormEntry={isNew.toString()} roomData={roomData}/>
-                <InputComponent value={streamLink} func={setStreamLink} text="stream link" isNewFormEntry={isNew.toString()} roomData={roomData}/>
-             {isNew ? <input type="submit" value="Submit" /> : <input type="submit" value="submit edit" />}
-              {!isNew ? <input type="submit" value="delete" onClick={handleSubmit}/> : <></>}
+              {formType === 'newRoom' ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Room</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Room</h2>}
+              <form onSubmit={handleSubmit} >
+                <RoomInputComponent text='Room Name' name='name' func={handleChange} formType={formType} roomData={roomData} value={room.name}/>
+                <RoomInputComponent text='Collective Name' value={room.subName} name='subName' func={handleChange} formType={formType} roomData={roomData}/>
+                {formType === 'newRoom' ? <RoomInputComponent text='Collective Abbreviation (ex. failed units --> FE)' value={key} func={setKey} name='key' formType={formType}/> : <></>}
+                <RoomInputComponent text="Location" value={room.location} func={handleChange} name="location" formType={formType} roomData={roomData}/>
+                <RoomInputComponent name="collective" value={room.collective} func={handleChange} text="Collective ID" formType={formType} roomData={roomData}/>
+                <RoomInputComponent value={room.adminId} func={handleChange} name="adminId" text="Admin ID" formType={formType} roomData={roomData}/>
+                <RoomInputComponent value={room.streamId} name="streamId" func={handleChange} text="Stream Key" formType={formType} roomData={roomData}/>
+                <RoomInputComponent value={room.streamLink} name="streamLink" func={handleChange} text="stream link" formType={formType} roomData={roomData}/>
+                <RoomInputComponent value={room.roomStartTime} name="roomStartTime" func={handleChange} isTime="roomTime" text="roomStartTime" roomData={roomData}/>
+             {formType === 'newRoom' ? <input type="submit" value="Submit" /> : <input type="submit" value="submit edit" onClick={handleSubmit}/> }
+              {formType !== 'newRoom' ? <input type="submit" value="delete" onClick={handleSubmit}/> : <></>}
               </form>
             </Modal>
     </div>

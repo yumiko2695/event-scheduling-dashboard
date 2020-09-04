@@ -7,25 +7,23 @@ const showStyle = {
   borderBottom: '1px solid rgba(255,255,255,.33)',
   display: 'flex',
   flexDirection: 'rows',
-  padding: '3px'
+  padding: '3px',
+  maxWidth: '240px'
 }
 
 const showLeftStyle = {
   padding: '3px',
   textAlign: 'left',
-  flexGrow: '1',
 }
 
 const showMiddleStyle = {
   padding: '3px',
   textAlign: 'left',
-  flexGrow: '2'
 }
 const showRightStyle = {
   padding: '3px',
   textAlign: 'right',
   alignItems: 'center',
-  flexGrow: '1'
 }
 
 const imageDivStyle = {
@@ -43,14 +41,24 @@ function ShowItem(props) {
   const {show, handleGetShows, getEdition} = props
 
   //handleRemove hook here
-
+console.log('this is show.startTime.toDate().toString()',show.startTime.toDate().toString())
+console.log('show.startTime.toString()', show.startTime.toString())
+console.log('show.startTime', show.startTime)
   return (
     <div className="Show" style={showStyle}>
       <div className="ShowLeft" style={showLeftStyle}>
-      <h3><u>start</u>:</h3>
-      <h3>{show.startTime}</h3>
+        <div>
+        <h3><u>start</u>:</h3>
+        </div>
+        <div>
+        <h3>{show.startTime.toDate().toString()}</h3>
+        </div>
+        <div>
         <h3><u>end</u>:</h3>
-        <h3>{show.endTime}</h3>
+        </div>
+        <div>
+        <h3>{show.endTime.toDate().toString()}</h3>
+        </div>
       </div>
       <div className="ShowMiddle" style={showMiddleStyle}>
       <div>title: <b>{show.title}</b></div>
@@ -66,7 +74,7 @@ function ShowItem(props) {
         </div>
       </div>
       <div className="ShowRight" style={showRightStyle}>
-      <ShowForm show={show} isNew={false} handleGetShows={handleGetShows} getEdition={getEdition} />
+      <ShowForm show={show} formType="editShow" handleGetShows={handleGetShows} getEdition={getEdition} />
       </div>
     </div>
   );
