@@ -41,7 +41,9 @@ function ShowItem(props) {
   const {show, handleGetShows, getEdition} = props
 
   //handleRemove hook here
-
+console.log('this is show.startTime.toDate().toString()',show.startTime.toDate().toString())
+console.log('show.startTime.toString()', show.startTime.toString())
+console.log('show.startTime', show.startTime)
   return (
     <div className="Show" style={showStyle}>
       <div className="ShowLeft" style={showLeftStyle}>
