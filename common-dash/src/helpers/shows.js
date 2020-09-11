@@ -7,24 +7,26 @@ export const getShows = async (edition) => {
   try {
   const showDocs = await db.collection('festival').doc(edition).collection('shows').get()
   const shows = showDocs.docs.map((doc) => {return {id: doc.id, ...doc.data()}})
-  let showsByRoom = {};
-  shows.map((show) => {
-    if(showsByRoom[show.roomId]) {
-      let roomArr = showsByRoom[show.roomId];
-      showsByRoom[show.roomId] = [...roomArr, show]
-    } else {
-      showsByRoom[show.roomId] = [show]
-    }
-    return showsByRoom
-  })
-  Object.keys(showsByRoom).forEach(roomId => {
-    let arr = showsByRoom[roomId]
-    arr.sort((a, b) => {
-      return b.startTime - a.startTime
-    })
-    showsByRoom[roomId] = arr;
-  })
-  return showsByRoom;
+  // let showsByRoom = {};
+  // shows.map((show) => {
+  //   if(showsByRoom[show.roomId]) {
+  //     let roomArr = showsByRoom[show.roomId];
+  //     showsByRoom[show.roomId] = [...roomArr, show]
+  //   } else {
+  //     showsByRoom[show.roomId] = [show]
+  //   }
+  //   return showsByRoom
+  // })
+  // Object.keys(showsByRoom).forEach(roomId => {
+  //   let arr = showsByRoom[roomId]
+  //   arr.sort((a, b) => {
+  //     return b.startTime - a.startTime
+  //   })
+  //   showsByRoom[roomId] = arr;
+  // })
+  // return showsByRoom;
+  console.log(shows)
+    return shows;
   } catch(e) {
   console.error(e)
   }

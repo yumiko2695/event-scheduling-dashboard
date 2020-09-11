@@ -3,8 +3,12 @@ import ShowItem from './ShowItem'
 import ShowForm from './ShowForm'
 import RoomForm from './RoomForm'
 import {getEditionData} from '../helpers/editionData'
+import {editShow} from '../helpers/shows'
+import moment from 'moment';
+
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 
 const roomStyle = {
 
@@ -32,55 +36,72 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-function Show(props) {
-  const { show, index, getEdition, handleGetShows, edition, isEditShow }  = props
-  return (
-    <div>
-    {show && show.id ?
-    <Draggable draggableId={index} show={show} index={index} getEdition={getEdition}>
-    {provided => (
-      <ShowItem show={show} getEdition={getEdition} handleGetShows={handleGetShows}
-        ref={provided.innerRef}
-        {...provided.draggableProps}
-        {...provided.dragHandleProps}
-      >
-      </ShowItem>
-    )}
-  </Draggable>
-  : <div></div>
-    }
-    </div>
-  );
-}
+
 
 
 function Room(props) {
-  const {roomData, roomKey, getEdition, handleGetShows, edition, shows, index} = props;
-  // function onDragEnd(result) {
-  //     if (!result.destination) {
-  //       return;
-  //     }
-  //     if (result.destination.index === result.source.index) {
-  //       return;
-  //     }
-  //     const shows = reorder(
-  //       shows,
-  //       result.source.index,
-  //       result.destination.index
-  //     );
-  //     setOrderedShows(shows)
-  //   }
-  //   useEffect(() => {
-  //     if(shows) {
-  //       //order shows
-  //       getShows(shows)
-  //     }
-  // }, [shows])
+  const {roomData, roomKey, getEdition, handleGetShows, edition, shows, i} = props;
 
+  const [orderedShows, setOrderedShows] = useState(false)
+
+  function onDragEnd(result) {
+    console.log(orderedShows)
+        if (!result.destination) {
+        return;
+      }
+      if (result.destination.index === result.source.index) {
+        return;
+      }
+      let newOrderedShows = reorder(
+        orderedShows,
+        result.source.index,
+        result.destination.index
+      );
+      let i = result.destination.index;
+      let updatedShows = []
+      while(i < newOrderedShows.length) {
+        let current = newOrderedShows[i];
+        if(i === 0) {
+          let setLength = current.endTime-current.startTime;
+          let startTime = roomData.roomStartTime.toDate()
+          let endTime = moment(new Date(startTime)).add(setLength, 'seconds').format()
+          console.log(endTime)
+          console.log(new Date(startTime))
+          let updatedShow = {...current, startTime: new Date(startTime), endTime: new Date(endTime)}
+          updatedShows.push(updatedShow)
+          editShow(edition, updatedShow, updatedShow.id)
+          //edit show data
+        } else {
+          let startTime = updatedShows[i-1].endTime
+          console.log(startTime)
+          let setLength = current.endTime - current.startTime;
+          let endTime = moment(new Date(startTime)).add(setLength, 'seconds')
+          let updatedShow = {...current, startTime: new Date(startTime), endTime: new Date(endTime)}
+          updatedShows.push(updatedShow)
+          editShow(edition, updatedShow, updatedShow.id)
+         // editShow(edition, updatedShow, updatedShow.id)
+        }
+        i++;
+      }
+      console.log(updatedShows)
+      setOrderedShows(updatedShows)
+    }
+    console.log(orderedShows)
+    useEffect(() => {
+      if(shows) {
+        let filteredShows = shows.filter(show => show.roomKey === roomData.key)
+        filteredShows = filteredShows.sort((a,b) => {
+          return a.startTime - b.startTime
+        })
+        setOrderedShows(filteredShows)
+      }
+  }, [shows])
   return (
       <div className="Room" style={roomStyle}>
         <div className="RoomInfo" style={roomInfoStyle}>
-        <div style={{opacity: .54}}>Room {roomData.roomId} </div>
+        <div style={{opacity: .54}}>Room {i} </div>
+          {roomData.name ?
+          <div>
           <div style={{marginBottom: 8, fontWeight: 500}}>Room Name: {roomData.name}</div>
           <div style={{fontSize: 11, marginBottom: 16, paddingBottom: 8}}>
             <div style={{marginBottom: 8}}>Start Time: {roomData.startTime}</div>
@@ -88,17 +109,27 @@ function Room(props) {
             <div>Location: {roomData.location}</div>
             <div>Stream ID: {roomData.streamId}</div>
             <div>Stream Link: {roomData.streamLink}</div>
-          </div>
-          <RoomForm index={index} formType="editRoom" roomData={roomData} edition={edition} roomKey={roomKey} getEdition={getEdition} />
+            </div>
+            </div> : <div></div> }
+          <RoomForm index={i} formType="editRoom" roomData={roomData} edition={edition} roomKey={roomKey} getEdition={getEdition} />
         </div>
         <div className="RoomLineup" >
-        <DragDropContext onDragEnd={null}>
+        <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="list" >
-          {(provided) => {
+          {(provided, snapshot) => {
            return <div ref={provided.innerRef} {...provided.droppableProps}>
-              {shows && shows.map((show, index) => (<Show show={show} key={index} getEdition={getEdition} handleGetShows={handleGetShows} roomData={roomData}>
-              {provided.placeholder}
-              </Show>))}
+              {orderedShows && orderedShows.map((show, index) => (
+                <Draggable draggableId={show.id} show={show} key={index} index={index} getEdition={getEdition}>
+                {(provided, snapshot) => (
+                  <div  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  style={provided.draggableProps.style}>
+                  <ShowItem show={show} getEdition={getEdition} handleGetShows={handleGetShows} />
+                  </div>
+                )}
+              </Draggable>
+              ))}
               <div>
               </div>
             </div>
@@ -106,7 +137,7 @@ function Room(props) {
           </Droppable>
       </DragDropContext>
       </div>
-      <ShowForm edition={edition} handleGetShows={handleGetShows} getEdition={getEdition} formType='newShow' shows={shows} roomData={roomData} />
+      <ShowForm edition={edition} handleGetShows={handleGetShows} getEdition={getEdition} formType='newShow' shows={shows} i={i} roomKey={roomKey} />
       </div>
 
   );

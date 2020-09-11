@@ -1,0 +1,56 @@
+[
+{
+  "type": "text",
+  "field": "title",
+  "displayName": "Title",
+  "placeholder": "Title of Performance"
+},
+{
+  "type": "text",
+  "field": "artist",
+  "displayName": "Artist",
+  "placeholder": "Artist Name"
+
+},{
+  "type": "datetime-local",
+  "field": "startTime",
+  "displayName": "Show Start Time",
+  "placeholder": ""
+},
+{
+  "type": "datetime-local",
+  "field": "endTime",
+  "displayName": "Show End Time",
+  "placeholder": ""
+},
+{
+  "type": "text",
+  "field": "streamLink",
+  "displayName": "Stream Link",
+  "placeholder": "https://network.currents-andata.xyz/live/[ROOMKEYHERE].m3u8'"
+},
+{
+  "type": "text",
+  "field": "email",
+  "displayName": "Email",
+  "placeholder": "Contact Email"
+},
+{
+  "type": "text",
+  "field": "currentsID",
+  "displayName": "Currents ID",
+  "placeholder": "Artist's currents ID"
+},
+{
+  "type": "text",
+  "field": "description",
+  "displayName": "Description",
+  "placeholder": "Description of Work + Bio"
+},
+{
+  "type": "text",
+  "field": "country",
+  "displayName": "Location",
+  "placeholder": "City"
+}
+]

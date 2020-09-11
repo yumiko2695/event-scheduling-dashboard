@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import logo from '../logo.svg';
 import '../styles/App.css';
 import Dashboard from './Dashboard'
 import firebase from 'firebase';

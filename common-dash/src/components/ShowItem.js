@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ShowForm from './ShowForm'
+import moment from 'moment'
 
 const showStyle = {
   marginBottom: 8,
@@ -39,11 +40,10 @@ const imageStyle = {
 function ShowItem(props) {
   var subtitle;
   const {show, handleGetShows, getEdition} = props
-
+  console.log(show.startTime)
+  console.log(show.endTime)
+  console.log(typeof show.startTime)
   //handleRemove hook here
-console.log('this is show.startTime.toDate().toString()',show.startTime.toDate().toString())
-console.log('show.startTime.toString()', show.startTime.toString())
-console.log('show.startTime', show.startTime)
   return (
     <div className="Show" style={showStyle}>
       <div className="ShowLeft" style={showLeftStyle}>
@@ -51,13 +51,13 @@ console.log('show.startTime', show.startTime)
         <h3><u>start</u>:</h3>
         </div>
         <div>
-        <h3>{show.startTime.toDate().toString()}</h3>
+        {show && show.startTime.seconds ? <h3>{moment(show.startTime.toDate()).format("D/M/YYYY hh:mm:ss A [GMT]Z")}</h3>: <h3>{moment(show.startTime).format("D/M/YYYY hh:mm:ss A [GMT]Z")}</h3>}
         </div>
         <div>
         <h3><u>end</u>:</h3>
         </div>
         <div>
-        <h3>{show.endTime.toDate().toString()}</h3>
+        {show && show.endTime.seconds ? <h3>{moment(show.endTime.toDate()).format("D/M/YYYY hh:mm:ss A [GMT]Z")}</h3> : <h3>{moment(show.endTime).format("D/M/YYYY hh:mm:ss A [GMT]Z")}</h3>}
         </div>
       </div>
       <div className="ShowMiddle" style={showMiddleStyle}>
@@ -74,7 +74,7 @@ console.log('show.startTime', show.startTime)
         </div>
       </div>
       <div className="ShowRight" style={showRightStyle}>
-      <ShowForm show={show} formType="editShow" handleGetShows={handleGetShows} getEdition={getEdition} />
+      <ShowForm show={show} formType="editShow" handleGetShows={handleGetShows} roomKey={show.roomKey} getEdition={getEdition} />
       </div>
     </div>
   );

@@ -3,8 +3,6 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "site": "common-new-dash",
-    "target": "common-new-dash",
     "public": "build",
     "ignore": [
       "firebase.json",

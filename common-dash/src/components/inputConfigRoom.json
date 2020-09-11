@@ -1,0 +1,55 @@
+[{
+  "type": "text",
+  "field": "name",
+  "displayName": "Room Name",
+  "placeholder": "Room Stream Name"
+},
+{
+  "type": "text",
+  "field": "subName",
+  "displayName": "Collective Name",
+  "placeholder": "Collective Name"
+},
+{
+  "type": "text",
+  "field": "location",
+  "displayName": "Location",
+  "placeholder": "City"
+
+},
+{
+  "type": "text",
+  "field": "key",
+  "displayName": "Collective Abbreviation",
+  "placeholder": "ex. failed units --> FE"
+},
+{
+  "type": "text",
+  "field": "collective",
+  "displayName": "Collective ID",
+  "placeholder": "collective ID from template"
+},
+{
+  "type": "text",
+  "field": "adminId",
+  "displayName": "Admin ID",
+  "placeholder": "admin account ID"
+},
+{
+  "type": "text",
+  "field": "streamId",
+  "displayName": "Stream Key",
+  "placeholder": "designated stream key"
+},
+{
+  "type": "text",
+  "field": "streamLink",
+  "displayName": "Stream Link",
+  "placeholder": "stream link"
+},
+{
+  "type": "datetime-local",
+  "field": "roomStartTime",
+  "displayName": "Room Start Time",
+  "placeholder": ""
+}]

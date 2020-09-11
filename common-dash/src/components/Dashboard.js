@@ -4,9 +4,9 @@ import RoomForm from './RoomForm'
 import { getEditionData } from '../helpers/editionData'
 import { getShows } from '../helpers/shows'
 
-const edition = 'common3'; //FIXME this should be able to be changed with the right permissions
+//const edition = 'common3'; //FIXME this should be able to be changed with the right permissions
 
-//const edition = 'test'
+const edition = 'test'
 
 const roomContainerStyle = {
   display: 'flex',
@@ -46,7 +46,6 @@ function Dashboard() {
   const getEdition = async (edition) => {
     const data = await getEditionData(edition);
     if(data !== 'ERROR') {
-      console.log(data)
       setEditionData(data);
     } else {
       console.log('error in the get edition')
@@ -60,7 +59,6 @@ function Dashboard() {
     }
   }, [edition])
 
-
   return (
     <div className="Dashboard">
       <div className="DashBoardButton" style={dashboardButtonStyle}>
@@ -68,14 +66,14 @@ function Dashboard() {
   <div>START TIME: {edition && editionData && editionData.start && new Date(editionData.start).toString()} <i>in your local time zone</i></div>
   <div>END TIME: {edition && editionData && editionData.end && new Date(editionData.end).toString()} <i>in your local time zone</i></div>
         {(editionData && editionData.rooms) ?
-        <RoomForm edition={edition} getEdition={getEdition}  roomsArr={editionData.rooms} formType='newRoom'/>
+        <RoomForm edition={edition} getEdition={getEdition} roomsArr={editionData.rooms} formType='newRoom'/>
         : <RoomForm edition={edition} getEdition={getEdition} formType='newRoom' />
       }
       </div>
       <div>ROOMS</div>
       <div className="RoomContainer" style={roomContainerStyle}>
-        {editionData && editionData.organizers && shows  ? Object.keys(editionData.organizers).map((room, index) => (
-              <Room edition={edition} roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} handleGetShows={handleGetShows} shows={shows[index]} i={index} key={index}/>
+        {editionData.rooms && editionData.organizers && shows ? editionData.rooms.map((room, index) =>           (
+              <Room edition={edition} roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} handleGetShows={handleGetShows} shows={shows} i={index} key={index}/>
           )
         ) : null}
 

@@ -12,6 +12,7 @@
     "fetch": "^1.1.0",
     "firebase": "^7.19.0",
     "lodash": "^4.17.20",
+    "moment": "^2.27.0",
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
@@ -25,7 +26,7 @@
   },
   "scripts": {
     "start": "cp local.env .env && react-scripts start",
-    "deploy-testing": "cp local.env .env && npm run build && firebase deploy",
+    "deploy-testing": "cp local.env .env && npm run build && firebase deploy --only hosting:common-dashboard-staging",
     "deploy": "cp prod.env .env && npm run build && firebase deploy --only hosting:common-new-dash",
     "build": "react-scripts build",
     "test": "react-scripts test",
