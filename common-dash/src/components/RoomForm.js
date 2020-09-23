@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Modal from 'react-modal'
 import InputComponent from './Input'
-import RoomInputComponent from './InputRooms'
 import {createRoom, editRoom, deleteRoom} from '../helpers/editionData'
 import inputConfigRoom from './inputConfigRoom.json'
 
@@ -101,15 +100,6 @@ function RoomForm(props) {
             >
               {formType === 'newRoom' ? <h2 ref={_subtitle => (subtitle = _subtitle)}>Add Room</h2> : <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit Room</h2>}
               {inputConfigRoom.map((inputProps, index) => (<InputComponent {...inputProps} fieldData={room[inputProps.field]} func={handleChange} key={index}/>))}
-                {/* <RoomInputComponent text='Room Name' name='name' func={handleChange} formType={formType} roomData={roomData} value={room.name}/>
-                <RoomInputComponent text='Collective Name' value={room.subName} name='subName' func={handleChange} formType={formType} roomData={roomData}/>
-                {formType === 'newRoom' ? <RoomInputComponent text='Collective Abbreviation (ex. failed units --> FE)' value={key} func={setKey} name='key' formType={formType}/> : <></>}
-                <RoomInputComponent text="Location" value={room.location} func={handleChange} name="location" formType={formType} roomData={roomData}/>
-                <RoomInputComponent name="collective" value={room.collective} func={handleChange} text="Collective ID" formType={formType} roomData={roomData}/>
-                <RoomInputComponent value={room.adminId} func={handleChange} name="adminId" text="Admin ID" formType={formType} roomData={roomData}/>
-                <RoomInputComponent value={room.streamId} name="streamId" func={handleChange} text="Stream Key" formType={formType} roomData={roomData}/>
-                <RoomInputComponent value={room.streamLink} name="streamLink" func={handleChange} text="stream link" formType={formType} roomData={roomData}/>
-                <RoomInputComponent value={room.roomStartTime} name="roomStartTime" func={handleChange} isTime="roomTime" text="roomStartTime" roomData={roomData}/> */}
              {formType === 'newRoom' ? <input type="submit" value="Submit" onClick={() => {handleCreateRoom(edition, roomKey, room)}} /> : <input type="submit" value="submit edit" onClick={() => {handleEditRoom(edition, roomKey, room)}}/> }
               {formType !== 'newRoom' ? <input type="submit" value="delete" onClick={() => {handleDeleteRoom(edition, roomKey)}}/> : <></>}
             </Modal>

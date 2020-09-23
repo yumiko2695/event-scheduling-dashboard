@@ -1,14 +1,5 @@
 {
   "projects": {
-    "default": "currents-staging"
-  },
-  "targets": {
-    "currents-staging": {
-      "hosting": {
-        "common-dashboard-staging": [
-          "common-dashboard-staging"
-        ]
-      }
-    }
+    "default": "dashboard-livestream-yumi"
   }
 }

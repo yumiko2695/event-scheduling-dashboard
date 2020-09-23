@@ -1,14 +1,17 @@
 {
-  "name": "common-dash",
+  "name": "dashboard-livestream-yumi",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "emotion": "^10.0.27",
+    "express": "^4.17.1",
     "fetch": "^1.1.0",
     "firebase": "^7.19.0",
     "lodash": "^4.17.20",
@@ -26,8 +29,7 @@
   },
   "scripts": {
     "start": "cp local.env .env && react-scripts start",
-    "deploy-testing": "cp local.env .env && npm run build && firebase deploy --only hosting:common-dashboard-staging",
-    "deploy": "cp prod.env .env && npm run build && firebase deploy --only hosting:common-new-dash",
+    "deploy": "cp prod.env .env && npm run build && firebase deploy",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

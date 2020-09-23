@@ -1,5 +1,17 @@
 import React from 'react';
 
+function InputComponent(props) {
+  const {func, fieldData, field, displayName, placeholder, type} = props
+  return (
+    <div className="EmptyTextInputRoom">
+      <label>
+        {displayName}
+          {type === 'datetime-local' ?  <input placeholder={placeholder} type={type} name={field} onChange={func} required/> :  <input placeholder={placeholder} type={type} value={fieldData || ''} name={field} onChange={func} required/>}
+        </label>
+    </div>
+  )
+}
+
 // function TextInput(props) {
 //   const {func, type, value, text, initialVal, isRoom, placeholder, name } = props
 //   if(value) {
@@ -86,21 +98,5 @@ import React from 'react';
 //     </div>
 //   )
 // }
-
-
-function InputComponent(props) {
-  const {func, fieldData, field, displayName, placeholder, type} = props
-  return (
-    <div className="EmptyTextInputRoom">
-      <label>
-        {displayName}
-          {type === 'datetime-local' ?  <input placeholder={placeholder} type={type} name={field} onChange={func} required/> :  <input placeholder={placeholder} type={type} value={fieldData || ''} name={field} onChange={func} required/>}
-        </label>
-    </div>
-  )
-
-
-
-}
 
 export default InputComponent;
