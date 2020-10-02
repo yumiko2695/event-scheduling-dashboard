@@ -5,6 +5,12 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import firebase from 'firebase';
 
+require('dotenv').config({
+  path: `${__dirname}/.env`
+})
+console.log(require('dotenv').config())
+
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,

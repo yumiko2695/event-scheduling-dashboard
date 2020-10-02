@@ -18,6 +18,8 @@ local.env
 test.env
 prod.env
 
+dashboard.json
+
 .firebaserc
 firebase.json
 npm-debug.log*

@@ -1,7 +1,7 @@
-import firebase from 'firebase'
+const firebase = require('firebase')
 
 //get rooms
-export const getEditionData = async (edition) => {
+const getEditionData = async (edition) => {
   const db = firebase.firestore()
   try {
     console.log(edition)
@@ -16,7 +16,7 @@ export const getEditionData = async (edition) => {
 }
 
 //add room
-export const createRoom = async (edition, roomKey, roomData) => {
+const createRoom = async (edition, roomKey, roomData) => {
   const db = firebase.firestore()
 try {
   let data = await db.collection('festival').doc(edition).get()
@@ -36,7 +36,7 @@ try {
 }
 
 //delete room
-export const deleteRoom = async (edition, roomKey) => {
+const deleteRoom = async (edition, roomKey) => {
   const db = firebase.firestore()
   try {
     let data = await db.collection('festival').doc(edition).get()
@@ -68,7 +68,7 @@ export const deleteRoom = async (edition, roomKey) => {
   }
 
   //edit room
-  export const editRoom = async (edition, roomKey, roomData) => {
+const editRoom = async (edition, roomKey, roomData) => {
     const db = firebase.firestore()
   try {
     console.log(edition, roomKey, roomData)
@@ -84,3 +84,5 @@ export const deleteRoom = async (edition, roomKey) => {
     return 'ERROR'
   }
   }
+
+  module.exports = {getEditionData, createRoom, deleteRoom, editRoom}

@@ -31,7 +31,8 @@ const dashboardTitleStyle = {
   fontWeight: 300,
 }
 
-function Dashboard() {
+function Dashboard(props) {
+  const {authed, admin} = props
   const [editionData, setEditionData] = useState(false)
   const [shows, setShows] = useState(false);
 
@@ -58,7 +59,7 @@ function Dashboard() {
       handleGetShows(edition)
     }
   }, [edition])
-
+  console.log(admin)
   return (
     <div className="Dashboard">
       <div className="DashBoardButton" style={dashboardButtonStyle}>
@@ -72,7 +73,7 @@ function Dashboard() {
       </div>
       <div>ROOMS</div>
       <div className="RoomContainer" style={roomContainerStyle}>
-        {editionData.rooms && editionData.organizers && shows ? editionData.rooms.map((room, index) =>           (
+        {editionData && editionData.rooms && editionData.organizers && shows ? editionData.rooms.map((room, index) =>           (
               <Room edition={edition} roomData={editionData.organizers[room]} roomKey={room} getEdition={getEdition} handleGetShows={handleGetShows} shows={shows} i={index} key={index}/>
           )
         ) : null}
