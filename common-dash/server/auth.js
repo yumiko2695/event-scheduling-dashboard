@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const admin = require('firebase-admin');
-const firebase = require('firebase')
 
 // const getAuthToken = async (req, res, next) => {
 //   if (
@@ -90,7 +89,6 @@ module.exports = router
 const {adminsOnly} = require('./utils/utils')
 
 router.get('/', adminsOnly, async (req, res, next) => {
-  console.log(req.idToken)
   try {
     res.send('admin');
   } catch(e) {

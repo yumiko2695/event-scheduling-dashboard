@@ -4,6 +4,7 @@ import RoomForm from './RoomForm'
 import { getEditionData } from '../helpers/editionData'
 import { getShows } from '../helpers/shows'
 
+const axios = require('axios')
 //const edition = 'common3'; //FIXME this should be able to be changed with the right permissions
 
 const edition = 'test'
@@ -45,9 +46,12 @@ function Dashboard(props) {
     }
   }
   const getEdition = async (edition) => {
-    const data = await getEditionData(edition);
+    const data = await axios.get('/edition/rooms', {
+        params: {edition: edition}
+    })
+    console.log(data.data)
     if(data !== 'ERROR') {
-      setEditionData(data);
+      setEditionData(data.data);
     } else {
       console.log('error in the get edition')
     }

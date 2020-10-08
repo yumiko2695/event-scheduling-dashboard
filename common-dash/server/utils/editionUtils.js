@@ -1,12 +1,9 @@
-const firebase = require('firebase')
-
+const admin = require('firebase-admin')
 //get rooms
 const getEditionData = async (edition) => {
-  const db = firebase.firestore()
+  const db = admin.firestore()
   try {
-    console.log(edition)
     const editionDoc = await db.collection("festival").doc(edition).get()
-    console.log(editionDoc)
     const editionData = await editionDoc.data();
     return editionData;
   } catch(e) {
@@ -17,11 +14,17 @@ const getEditionData = async (edition) => {
 
 //add room
 const createRoom = async (edition, roomKey, roomData) => {
-  const db = firebase.firestore()
+  const db = admin.firestore()
 try {
   let data = await db.collection('festival').doc(edition).get()
   let oldRooms = data.data().rooms
-  let newRooms = [...oldRooms, roomKey]
+  let newsRooms
+  if(oldRooms === undefined) {
+    newRooms = [roomKey]
+
+  } else {
+    newRooms = [...oldRooms, roomKey]
+  }
   let oldOrganizers = data.data().organizers
   let newOrganizers = {...oldOrganizers, [roomKey]: {...roomData}}
   await db.collection('festival').doc(edition).update({
@@ -37,13 +40,12 @@ try {
 
 //delete room
 const deleteRoom = async (edition, roomKey) => {
-  const db = firebase.firestore()
+  const db = admin.firestore()
   try {
     let data = await db.collection('festival').doc(edition).get()
     let oldRooms = data.data().rooms
-    console.log(oldRooms)
     let newRooms = [...oldRooms].reduce((accumulator, currentVal) => {
-      if(currentVal !== roomKey) {
+      if(currentVal !== Number(roomKey)) {
         accumulator.push(currentVal)
       }
       return accumulator
@@ -56,11 +58,12 @@ const deleteRoom = async (edition, roomKey) => {
       }
       return object
     }, {})
+    console.log(newOrganizers)
     await db.collection('festival').doc(edition).update({
     rooms: newRooms,
     organizers: newOrganizers
     })
-    return 'room Deleted'
+    return db.collection('festival').doc(edition).get()
   } catch(e) {
     console.error(e, 'in deleteroom')
     return 'ERROR'
@@ -69,9 +72,8 @@ const deleteRoom = async (edition, roomKey) => {
 
   //edit room
 const editRoom = async (edition, roomKey, roomData) => {
-    const db = firebase.firestore()
+    const db = admin.firestore()
   try {
-    console.log(edition, roomKey, roomData)
     let data = await db.collection('festival').doc(edition).get()
     let oldOrganizers = data.data().organizers
     let oldRoom = oldOrganizers[roomKey]

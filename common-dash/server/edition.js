@@ -6,12 +6,12 @@ const admin = require('firebase-admin');
 module.exports = router
 
 const {adminsOnly, currentUserOnly, adminOrCurrentUser} = require('./utils/utils')
-const {getEditionData, createRoom, deleteRoom} = require('./utils/editionUtils')
+const {getEditionData, createRoom, deleteRoom, editRoom} = require('./utils/editionUtils')
 
 
-router.get('/rooms', adminsOnly, async (req, res, next) => {
+router.get('/rooms', async (req, res, next) => {
   try {
-    const {edition} = req.params
+    const {edition} = req.query
     const rooms = await getEditionData(edition)
     res.send(rooms)
   } catch(e) {
@@ -20,9 +20,41 @@ router.get('/rooms', adminsOnly, async (req, res, next) => {
   }
 })
 
-router.get('/createRoom', adminsOnly, async (req, res, next) => {
+router.get('/deleteRoom', async (req, res, next) => {
   try {
-    const {edition, roomKey, roomData} = req.params
+    const {edition, roomKey} = req.query
+    const deleteRoomRes = await deleteRoom(edition, roomKey)
+    if(deleteRoomRes !== 'ERROR') {
+      res.send(deleteRoomRes)
+    } else {
+      console.log('error in delete room')
+    }
+    next()
+  } catch(e) {
+    console.log(e)
+    next(e)
+  }
+})
+
+router.post('/editRoom', async (req, res, next) => {
+  try {
+    const {edition, roomKey, roomData} = req.body
+    const editRoomRes = await editRoom(edition, roomKey, roomData)
+    if(editRoomRes !== 'ERROR') {
+      res.send(editRoomRes)
+    } else {
+      console.log('error in delete room')
+    }
+    next()
+  } catch(e) {
+    console.log(e)
+    next(e)
+  }
+})
+
+router.post('/createRoom', async (req, res, next) => {
+  try {
+    const {edition, roomKey, roomData} = req.body
     const createRoomRes = await createRoom(edition, roomKey, roomData)
     if(createRoomRes !== 'ERROR') {
       res.send(createRoomRes)
@@ -36,21 +68,7 @@ router.get('/createRoom', adminsOnly, async (req, res, next) => {
   }
 })
 
-router.get('/deleteRoom', adminsOnly, async (req, res, next) => {
-  try {
-    const {edition, roomKey} = req.params
-    const deleteRoomRes = await deleteRoom(edition, roomKey)
-    if(deleteRoomRes !== 'ERROR') {
-      return res.send(deleteRoomRes)
-    } else {
-      console.log('error in delete room')
-    }
-    next()
-  } catch(e) {
-    console.log(e)
-    next(e)
-  }
-})
+
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')

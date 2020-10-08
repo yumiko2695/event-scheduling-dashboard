@@ -23,8 +23,6 @@ function App() {
     unregisterAuthObserver = firebase.auth().onAuthStateChanged(
       async (user) => {
           if (user) { //only allow specific team members, not all users
-            console.log(user)
-            setAuthed(true)
             let userInfo = firebase.auth().currentUser;
             let name, email, photoUrl, uid, emailVerified;
             if (userInfo != null) {
@@ -35,8 +33,7 @@ function App() {
               uid =user.uid;
             }
             let token = await firebase.auth().currentUser.getIdToken()
-            console.log(token.i)
-              axios.get('/auth', {headers: {
+            await axios.get('/auth', {headers: {
                 Authorization: 'Bearer ' + token
               }
               })
@@ -44,6 +41,7 @@ function App() {
                 function(response){
                   console.log(response.data)
                 if(response.data === 'admin') {
+                  setAuthed(true)
                   setAdmin(true)
                 }            // ...
             }).catch(function(error) {

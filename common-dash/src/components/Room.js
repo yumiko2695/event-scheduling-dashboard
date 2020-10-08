@@ -45,7 +45,6 @@ function Room(props) {
   const [orderedShows, setOrderedShows] = useState(false)
 
   function onDragEnd(result) {
-    console.log(orderedShows)
         if (!result.destination) {
         return;
       }
@@ -83,10 +82,8 @@ function Room(props) {
         }
         i++;
       }
-      console.log(updatedShows)
       setOrderedShows(updatedShows)
     }
-    console.log(orderedShows)
     useEffect(() => {
       if(shows) {
         let filteredShows = shows.filter(show => show.roomKey === roomData.key)
@@ -100,7 +97,7 @@ function Room(props) {
       <div className="Room" style={roomStyle}>
         <div className="RoomInfo" style={roomInfoStyle}>
         <div style={{opacity: .54}}>Room {i} </div>
-          {roomData.name ?
+          {roomData && roomData.name ?
           <div>
           <div style={{marginBottom: 8, fontWeight: 500}}>Room Name: {roomData.name}</div>
           <div style={{fontSize: 11, marginBottom: 16, paddingBottom: 8}}>

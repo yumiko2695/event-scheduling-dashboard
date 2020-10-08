@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import InputComponent from './Input'
 import {createRoom, editRoom, deleteRoom} from '../helpers/editionData'
 import inputConfigRoom from './inputConfigRoom.json'
+const axios = require('axios')
 
 //const edition = 'test';//FIXME this should be passed in
 
@@ -55,7 +56,19 @@ function RoomForm(props) {
 
   const handleCreateRoom = async (edition, key, room) => {
     console.log(room)
-    const data = await createRoom(edition, room.key, room);
+    // const data = await createRoom(edition, room.key, room);
+    let num
+    if(roomsArr) {
+      num = roomsArr.length
+    } else {
+      num = 0
+    }
+    let data = await axios.post('/edition/createRoom', { edition: edition, roomKey: num, roomData: room }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+      })
     if(data !== 'ERROR') {
       getEdition(edition)
       setRoom(false)
@@ -67,7 +80,12 @@ function RoomForm(props) {
     }
   }
   const handleEditRoom = async (edition, key, room) => {
-    const data = await editRoom(edition, roomKey, room)
+    let data = await axios.post('/edition/editRoom', {edition: edition, roomKey: roomKey, roomData: room}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+    })
     if(data !== 'ERROR') {
       getEdition(edition)
       setRoom(false)
@@ -78,7 +96,7 @@ function RoomForm(props) {
     }
   }
   const handleDeleteRoom = async () => {
-    const data = await deleteRoom(edition, roomKey);
+    let data = await axios.get('/edition/deleteRoom', {params: { edition: edition, roomKey: roomKey}})
     if(data !== 'ERROR') {
       getEdition(edition)
       setRoom(false)
