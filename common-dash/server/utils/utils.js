@@ -58,13 +58,15 @@ const roomAdminOnly = (req, res, next) => {
   authRequired(req, res, async () => {
     try {
       let adminDocs = await admin.firestore().collection('admin').where('uid', '==', req.authId).get()
+      let info = adminDocs.docs.map(doc => doc.data())
       let isAdmin = adminDocs && adminDocs.docs && adminDocs.docs.map(doc => doc.data()).length > 0
-      if (!isAdmin) {
-        console.error("not an admin")
+      if(!info[0].roomAdmin.includes(req.body.roomKey)) {
+        console.error("not room admin")
         return res
           .status(401)
           .send({ error: "You are not authorized to make this request" });
-      } else {
+      }
+      else {
         next()
       }
     } catch(e) {
@@ -95,4 +97,4 @@ const adminOrCurrentUser = (req, res, next) => {
   }
 }
 
-module.exports = {getAuthToken, adminsOnly, authRequired, currentUserOnly, adminOrCurrentUser}
+module.exports = {getAuthToken, adminsOnly, authRequired, roomAdminOnly , currentUserOnly, adminOrCurrentUser}

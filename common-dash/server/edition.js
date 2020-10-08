@@ -5,7 +5,7 @@ const admin = require('firebase-admin');
 
 module.exports = router
 
-const {adminsOnly, currentUserOnly, adminOrCurrentUser} = require('./utils/utils')
+const {adminsOnly, currentUserOnly, adminOrCurrentUser, roomAdminOnly} = require('./utils/utils')
 const {getEditionData, createRoom, deleteRoom, editRoom} = require('./utils/editionUtils')
 
 
@@ -20,7 +20,7 @@ router.get('/rooms', async (req, res, next) => {
   }
 })
 
-router.get('/deleteRoom', async (req, res, next) => {
+router.get('/deleteRoom', roomAdminOnly, async (req, res, next) => {
   try {
     const {edition, roomKey} = req.query
     const deleteRoomRes = await deleteRoom(edition, roomKey)
@@ -36,7 +36,7 @@ router.get('/deleteRoom', async (req, res, next) => {
   }
 })
 
-router.post('/editRoom', async (req, res, next) => {
+router.post('/editRoom', roomAdminOnly, async (req, res, next) => {
   try {
     const {edition, roomKey, roomData} = req.body
     const editRoomRes = await editRoom(edition, roomKey, roomData)
@@ -52,7 +52,7 @@ router.post('/editRoom', async (req, res, next) => {
   }
 })
 
-router.post('/createRoom', async (req, res, next) => {
+router.post('/createRoom', roomAdminOnly, async (req, res, next) => {
   try {
     const {edition, roomKey, roomData} = req.body
     const createRoomRes = await createRoom(edition, roomKey, roomData)

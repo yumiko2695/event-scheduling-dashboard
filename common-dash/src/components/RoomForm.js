@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import InputComponent from './Input'
 import {createRoom, editRoom, deleteRoom} from '../helpers/editionData'
 import inputConfigRoom from './inputConfigRoom.json'
+import firebase from 'firebase'
 const axios = require('axios')
 
 //const edition = 'test';//FIXME this should be passed in
@@ -63,10 +64,12 @@ function RoomForm(props) {
     } else {
       num = 0
     }
+    let token = await firebase.auth().currentUser.getIdToken()
     let data = await axios.post('/edition/createRoom', { edition: edition, roomKey: num, roomData: room }, {
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': '*',
+          Authorization: 'Bearer ' + token
         },
       })
     if(data !== 'ERROR') {
@@ -80,10 +83,12 @@ function RoomForm(props) {
     }
   }
   const handleEditRoom = async (edition, key, room) => {
+    let token = await firebase.auth().currentUser.getIdToken()
     let data = await axios.post('/edition/editRoom', {edition: edition, roomKey: roomKey, roomData: room}, {
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        Authorization: 'Bearer ' + token
       },
     })
     if(data !== 'ERROR') {
